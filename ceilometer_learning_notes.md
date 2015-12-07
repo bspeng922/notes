@@ -251,3 +251,42 @@ class Service(service.Service):
 
 ###ceilometer-agent-central服务的初始化和启动
 
+
+##### clear_expired_metering_data
+先找出所有符合条件的sample，然后再循环删除，如果数据量比较大，会占用比较多的内存空间。改为逐个删除，要先删除外键关联表，最后再删除sample表。
+metadata_text
+metadata_float
+metadata_int
+metadata_bool
+source, sourceassoc
+sample
+```log
+2015-11-24 09:44:09.837 23391 INFO sqlalchemy.engine.base.Engine [-] SELECT metadata_text.id AS metadata_text_id, metadata_text.meta_key AS metadata_text_meta_key, metadata_text.value AS metadata_text_value
+FROM metadata_text
+WHERE %s = metadata_text.id
+2015-11-24 09:44:09.839 23391 INFO sqlalchemy.engine.base.Engine [-] (95148L,)
+2015-11-24 09:44:09.850 23391 INFO sqlalchemy.engine.base.Engine [-] SELECT metadata_float.id AS metadata_float_id, metadata_float.meta_key AS metadata_float_meta_key, metadata_float.value AS metadata_float_value
+FROM metadata_float
+WHERE %s = metadata_float.id
+2015-11-24 09:44:09.854 23391 INFO sqlalchemy.engine.base.Engine [-] (95148L,)
+2015-11-24 09:44:09.862 23391 INFO sqlalchemy.engine.base.Engine [-] SELECT metadata_int.id AS metadata_int_id, metadata_int.meta_key AS metadata_int_meta_key, metadata_int.value AS metadata_int_value
+FROM metadata_int
+WHERE %s = metadata_int.id
+2015-11-24 09:44:09.870 23391 INFO sqlalchemy.engine.base.Engine [-] (95148L,)
+2015-11-24 09:44:09.882 23391 INFO sqlalchemy.engine.base.Engine [-] SELECT metadata_bool.id AS metadata_bool_id, metadata_bool.meta_key AS metadata_bool_meta_key, metadata_bool.value AS metadata_bool_value
+FROM metadata_bool
+WHERE %s = metadata_bool.id
+2015-11-24 09:44:09.885 23391 INFO sqlalchemy.engine.base.Engine [-] (95148L,)
+2015-11-24 09:44:09.898 23391 INFO sqlalchemy.engine.base.Engine [-] BEGIN (implicit)
+2015-11-24 09:44:09.902 23391 INFO sqlalchemy.engine.base.Engine [-] SELECT source.id AS source_id
+FROM source, sourceassoc
+WHERE %s = sourceassoc.sample_id AND source.id = sourceassoc.source_id
+2015-11-24 09:44:09.906 23391 INFO sqlalchemy.engine.base.Engine [-] (95148L,)
+2015-11-24 09:44:09.912 23391 INFO sqlalchemy.engine.base.Engine [-] DELETE FROM sourceassoc WHERE sourceassoc.sample_id = %s AND sourceassoc.source_id = %s
+2015-11-24 09:44:09.916 23391 INFO sqlalchemy.engine.base.Engine [-] (95148L, 'hardware')
+2015-11-24 09:44:09.926 23391 INFO sqlalchemy.engine.base.Engine [-] DELETE FROM metadata_text WHERE metadata_text.id = %s AND metadata_text.meta_key = %s
+2015-11-24 09:44:09.927 23391 INFO sqlalchemy.engine.base.Engine [-] ((95148L, 'resource_id'), (95148L, 'resource_url'))
+2015-11-24 09:44:09.932 23391 INFO sqlalchemy.engine.base.Engine [-] DELETE FROM sample WHERE sample.id = %s
+2015-11-24 09:44:09.934 23391 INFO sqlalchemy.engine.base.Engine [-] (95148L,)
+2015-11-24 09:44:09.938 23391 INFO sqlalchemy.engine.base.Engine [-] COMMIT
+```
