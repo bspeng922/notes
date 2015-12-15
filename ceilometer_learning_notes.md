@@ -290,3 +290,40 @@ WHERE %s = sourceassoc.sample_id AND source.id = sourceassoc.source_id
 2015-11-24 09:44:09.934 23391 INFO sqlalchemy.engine.base.Engine [-] (95148L,)
 2015-11-24 09:44:09.938 23391 INFO sqlalchemy.engine.base.Engine [-] COMMIT
 ```
+
+
+#### Ceilometer二次开发
+ceilometer/api/controllers/v2.py
+变量名即为rest中的路径
+```python
+class V2Controller(object):
+    resources = ResourcesController()
+    meters = MetersController()
+    samples = SamplesController()
+    ...
+```
+
+Controller
+继承RestController，使用expose对外暴露方法
+pecan.request.storage_conn.get_resources() 对应storage中对应的方法（ceilometer/storage/impl_sqlalchemy.py），从数据库中获取数据
+```
+class ResourcesController(rest.RestController):
+    @wsme_pecan.wsexpose(Resource, unicode)
+    def get_one(self, resource_id):
+        authorized_project = acl.get_limited_to_project(pecan.request.headers)
+        resources = list(pecan.request.storage_conn.get_resources(
+            resource=resource_id, project=authorized_project))
+        if not resources:
+            raise EntityNotFound(_('Resource'), resource_id)
+        return Resource.from_db_and_links(resources[0],
+                                          self._resource_links(resource_id)
+```
+
+```python
+def get_resources(self, user=None, project=None, source=None,
+                  start_timestamp=None, start_timestamp_op=None,
+                  end_timestamp=None, end_timestamp_op=None,
+                  metaquery={}, resource=None, pagination=None):
+    ...
+```
+

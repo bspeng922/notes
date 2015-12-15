@@ -75,3 +75,7 @@ sudo kvm -m 1024 -cdrom CentOS-6.2-x86_64-LiveDVD.iso -drive file=centos.qcow2,i
 vncviewer :2
 
 sudo kvm -m 1024 -drive file=centos.qcow2,if=virtio,index=0,boot=on -boot c -net nic -net user -nographic -vnc :2
+
+
+## Openstack 直接使用原始启动盘作为镜像
+创建镜像时直接上传原始启动盘即可

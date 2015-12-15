@@ -26,3 +26,8 @@ export LC_ALL=C，然后再执行neutron命令
 
 7. **分配floating ip后无法ping通，但是从路由上可以ping通私网地址**
 需要先创建安全组规则，添加ICMP进出规则：ALL ICMP
+
+8. **Python打包格式**
++ tar.gz格式：这个就是标准压缩格式，里面包含了项目元数据和代码，可以使用python setup.py sdist命令生成。
++ egg格式：这个本质上也是一个压缩文件，只是扩展名换了，里面也包含了项目元数据以及源代码。这个格式由setuptools项目引入。可以通过命令python setup.py bdist_egg命令生成。
++ whl格式：这个是Wheel包，也是一个压缩文件，只是扩展名换了，里面也包含了项目元数据和代码，还支持免安装直接运行。whl分发包内的元数据和egg包是有些不同的。这个格式是由PEP 427引入的。可以通过命令python setup.py bdist_wheel生成。
