@@ -49,7 +49,7 @@ Bootstrap 使用到的某些 HTML 元素和 CSS 属性需要将页面设置为 H
 ```
 
 ### 移动设备优先
-Bootstrap 是移动设备优先的。针对移动设备的样式融合进了框架的每个角落，而不是增加一个额外的文件。为了确保适当的绘制和触屏缩放，需要在 <head> 之中添加 viewport 元数据标签。
+Bootstrap 是移动设备优先的。针对移动设备的样式融合进了框架的每个角落，而不是增加一个额外的文件。为了确保适当的绘制和触屏缩放，需要在 <head\> 之中添加 viewport 元数据标签。
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ```
@@ -117,6 +117,7 @@ None （自动） | 750px | 970px | 1170px
 
 
 在某些阈值时，某些列可能会出现比别的列高的情况。为了克服这一问题，建议联合使用 .clearfix
+```
 <div class="row">
   <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
   <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
@@ -127,15 +128,19 @@ None （自动） | 750px | 970px | 1170px
   <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
   <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
 </div>
+```
 
 除了列在分界点清除响应， 您可能需要 重置偏移, 后推或前拉某个列，例如，.col-md-offset-4 类将 .col-md-4 元素向右侧偏移了4个列（column）的宽度。
+```
 <div class="row">
   <div class="col-sm-5 col-md-6">.col-sm-5 .col-md-6</div>
   <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">.col-sm-5 .col-sm-offset-2 .col-md-6 .col-md-offset-0</div>
 </div>
+```
 
 ### 嵌套列
 为了使用内置的栅格系统将内容再次嵌套，可以通过添加一个新的 .row 元素和一系列 .col-sm-* 元素到已经存在的 .col-sm-* 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过12（其实，没有要求你必须占满12列）。
+```
 <div class="row">
   <div class="col-sm-9">
     Level 1: .col-sm-9
@@ -149,17 +154,20 @@ None （自动） | 750px | 970px | 1170px
     </div>
   </div>
 </div>
+```
 
 ### 列排序
 通过使用 .col-md-push-* 和 .col-md-pull-* 类就可以很容易的改变列（column）的顺序
+```
 <div class="row">
   <div class="col-md-9 col-md-push-3">.col-md-9 .col-md-push-3</div>
   <div class="col-md-3 col-md-pull-9">.col-md-3 .col-md-pull-9</div>
 </div>
+```
 
 ### 排版
-HTML 中的所有标题标签，<h1> 到 <h6> 均可使用，在标题内还可以包含 <small> 标签或赋予 .small 类的元素，可以用来标记副标题。
-Bootstrap 将全局 font-size 设置为 14px，line-height 设置为 1.428。这些属性直接赋予 <body> 元素和所有段落元素。另外，<p> （段落）元素还被设置了等于 1/2 行高（即 10px）的底部外边距（margin）。
+HTML 中的所有标题标签，<h1\> 到 <h6\> 均可使用，在标题内还可以包含 <small\> 标签或赋予 .small 类的元素，可以用来标记副标题。
+Bootstrap 将全局 font-size 设置为 14px，line-height 设置为 1.428。这些属性直接赋予 <body> 元素和所有段落元素。另外，<p\> （段落）元素还被设置了等于 1/2 行高（即 10px）的底部外边距（margin）。
 
 #### 中心内容
 通过添加 .lead 类可以让段落突出显示。
@@ -169,24 +177,24 @@ Bootstrap 将全局 font-size 设置为 14px，line-height 设置为 1.428。这
 
 #### 内联元素
 + 高亮文本
-For highlighting a run of text due to its relevance in another context, use the <mark> tag.
+For highlighting a run of text due to its relevance in another context, use the <mark\> tag.
 + 被删除的文本
-对于被删除的文本使用 <del> 标签。
+对于被删除的文本使用 <del\> 标签。
 + 无用文本
-对于没用的文本使用 <s> 标签。
+对于没用的文本使用 <s\> 标签。
 + 插入文本
-额外插入的文本使用 <ins> 标签。
+额外插入的文本使用 <ins\> 标签。
 + 带下划线的文本
-为文本添加下划线，使用 <u> 标签。
+为文本添加下划线，使用 <u\> 标签。
 + 小号文本
-对于不需要强调的inline或block类型的文本，使用 <small> 标签包裹，其内的文本将被设置为父容器字体大小的 85%。标题元素中嵌套的 <small> 元素被设置不同的 font-size 。
-你还可以为行内元素赋予 .small 类以代替任何 <small> 元素。
+对于不需要强调的inline或block类型的文本，使用 <small\> 标签包裹，其内的文本将被设置为父容器字体大小的 85%。标题元素中嵌套的 <small\> 元素被设置不同的 font-size 。
+你还可以为行内元素赋予 .small 类以代替任何 <small\> 元素。
 + 着重
-通过增加 font-weight 值强调一段文本， 使用<strong>标签
+通过增加 font-weight 值强调一段文本， 使用<strong\>标签
 + 斜体
-用斜体强调一段文本， 使用<em> 元素
+用斜体强调一段文本， 使用<em\> 元素
 
-> 在 HTML5 中可以放心使用 <b> 和 <i> 标签。<b> 用于高亮单词或短语，不带有任何着重的意味；而 <i> 标签主要用于发言、技术词汇等。
+> 在 HTML5 中可以放心使用 <b\> 和 <i\> 标签。<b\> 用于高亮单词或短语，不带有任何着重的意味；而 <i\> 标签主要用于发言、技术词汇等。
 
 + 对齐
 通过文本对齐类，可以简单方便的将文字重新对齐
@@ -207,7 +215,7 @@ For highlighting a run of text due to its relevance in another context, use the 
 ```
 
 + 缩略语
-当鼠标悬停在缩写和缩写词上时就会显示完整内容，Bootstrap 实现了对 HTML 的 <abbr> 元素的增强样式。缩略语元素带有 title 属性，外观表现为带有较浅的虚线框，鼠标移至上面时会变成带有“问号”的指针。如想看完整的内容可把鼠标悬停在缩略语上（对使用辅助技术的用户也可见）, 但需要包含 title 属性。
+当鼠标悬停在缩写和缩写词上时就会显示完整内容，Bootstrap 实现了对 HTML 的 <abbr\> 元素的增强样式。缩略语元素带有 title 属性，外观表现为带有较浅的虚线框，鼠标移至上面时会变成带有“问号”的指针。如想看完整的内容可把鼠标悬停在缩略语上（对使用辅助技术的用户也可见）, 但需要包含 title 属性。
 
 为缩略语添加 .initialism 类，可以让 font-size 变得稍微小些。
 ```html 
@@ -215,7 +223,7 @@ For highlighting a run of text due to its relevance in another context, use the 
 ```
 
 + 地址 
-让联系信息以最接近日常使用的格式呈现。在每行结尾添加 <br> 可以保留需要的样式。
+让联系信息以最接近日常使用的格式呈现。在每行结尾添加 <br\> 可以保留需要的样式。
 ```html 
 <address>
   <strong>Twitter, Inc.</strong><br>
@@ -226,8 +234,8 @@ For highlighting a run of text due to its relevance in another context, use the 
 ```
 
 + 引用
-将任何 HTML 元素包裹在 <blockquote> 中即可表现为引用样式。对于直接引用，我们建议用 <p> 标签。
-添加 <footer> 用于标明引用来源。来源的名称可以包裹进 <cite>标签中。
+将任何 HTML 元素包裹在 <blockquote\> 中即可表现为引用样式。对于直接引用，我们建议用 <p\> 标签。
+添加 <footer\> 用于标明引用来源。来源的名称可以包裹进 <cite\>标签中。
 通过赋予 .blockquote-reverse 类可以让引用呈现内容右对齐的效果。
 ```html 
 <blockquote>
@@ -238,44 +246,50 @@ For highlighting a run of text due to its relevance in another context, use the 
 
 + 列表
 无序列表
+```
 <ul>
   <li>...</li>
 </ul>
+```
 有序列表
+```
 <ol>
   <li>...</li>
 </ol>
+```
 移除了默认的 list-style 样式和左侧外边距的一组元素（只针对直接子元素）。这是针对直接子元素的，也就是说，你需要对所有嵌套的列表都添加这个类才能具有同样的样式。
 
 通过设置 display: inline-block; 并添加少量的内补（padding），将所有元素放置于同一行。
 
 + 描述
+```
 <dl>
   <dt>...</dt>
   <dd>...</dd>
 </dl>
-.dl-horizontal 可以让 <dl> 内的短语及其描述排在一行。开始是像 <dl> 的默认样式堆叠在一起，随着导航条逐渐展开而排列在一行。
+```
+.dl-horizontal 可以让 <dl> 内的短语及其描述排在一行。开始是像 <dl\> 的默认样式堆叠在一起，随着导航条逐渐展开而排列在一行。
 
 > 通过 text-overflow 属性，水平排列的描述列表将会截断左侧太长的短语。在较窄的视口（viewport）内，列表将变为默认堆叠排列的布局方式。通过 text-overflow 属性，水平排列的描述列表将会截断左侧太长的短语。在较窄的视口（viewport）内，列表将变为默认堆叠排列的布局方式。
 
 
 ### 代码
-通过 <code> 标签包裹内联样式的代码片段
-通过 <kbd> 标签标记用户通过键盘输入的内容
+通过 <code\> 标签包裹内联样式的代码片段
+通过 <kbd\> 标签标记用户通过键盘输入的内容
 ```
 To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
 ```
 
-多行代码可以使用 <pre> 标签。为了正确的展示代码，注意将尖括号做转义处理。
+多行代码可以使用 <pre\> 标签。为了正确的展示代码，注意将尖括号做转义处理。
 还可以使用 .pre-scrollable 类，其作用是设置 max-height 为 350px ，并在垂直方向展示滚动条。
 
-通过 <var> 标签标记变量。
-通过 <samp> 标签来标记程序输出的内容
+通过 <var\> 标签标记变量。
+通过 <samp\> 标签来标记程序输出的内容
 
 
 ### 表格
-为任意 <table> 标签添加 .table 类可以为其赋予基本的样式 — 少量的内补（padding）和水平方向的分隔线。
-通过 .table-striped 类可以给 <tbody> 之内的每一行增加斑马条纹样式。
+为任意 <table\> 标签添加 .table 类可以为其赋予基本的样式 — 少量的内补（padding）和水平方向的分隔线。
+通过 .table-striped 类可以给 <tbody\> 之内的每一行增加斑马条纹样式。
 ```html 
 <table class="table table-striped">
   ...
@@ -283,7 +297,7 @@ To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
 ```
 
 添加 .table-bordered 类为表格和其中的每个单元格增加边框。
-通过添加 .table-hover 类可以让 <tbody> 中的每一行对鼠标悬停状态作出响应。
+通过添加 .table-hover 类可以让 <tbody\> 中的每一行对鼠标悬停状态作出响应。
 通过添加 .table-condensed 类可以让表格更加紧凑，单元格中的内补（padding）均会减半。
 
 通过这些状态类可以为行或单元格设置颜色
@@ -314,7 +328,7 @@ To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
 ```
 
 ### 表单
-单独的表单控件会被自动赋予一些全局样式。所有设置了 .form-control 类的 <input>、<textarea> 和 <select> 元素都将被默认设置宽度属性为 width: 100%;。 将 label 元素和前面提到的控件包裹在 .form-group 中可以获得最好的排列。
+单独的表单控件会被自动赋予一些全局样式。所有设置了 .form-control 类的 <input\>、<textarea\> 和 <select\> 元素都将被默认设置宽度属性为 width: 100%;。 将 label 元素和前面提到的控件包裹在 .form-group 中可以获得最好的排列。
 ```html 
 <form>
   <div class="form-group">
@@ -332,10 +346,10 @@ To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
 > 不要将表单组直接和输入框组混合使用。建议将输入框组嵌套到表单组中使用。
 > 一定要添加 label 标签, 如果你没有为每个输入控件设置 label 标签，屏幕阅读器将无法正确识别。对于这些内联表单，你可以通过为 label 设置 .sr-only 类将其隐藏。
 
-为 <form> 元素添加 .form-inline 类可使其内容左对齐并且表现为 inline-block 级别的控件。只适用于视口（viewport）至少在 768px 宽度时（视口宽度再小的话就会使表单折叠）。
+为 <form\> 元素添加 .form-inline 类可使其内容左对齐并且表现为 inline-block 级别的控件。只适用于视口（viewport）至少在 768px 宽度时（视口宽度再小的话就会使表单折叠）。
 
 + 输入框
-如需在文本输入域 <input> 前面或后面添加文本内容或按钮控件,可以添加.input-group,通过.input-group-addon来为输入框添加一些额外的信息
+如需在文本输入域 <input\> 前面或后面添加文本内容或按钮控件,可以添加.input-group,通过.input-group-addon来为输入框添加一些额外的信息
 ```html 
 <form class="form-inline">
   <div class="form-group">
@@ -367,7 +381,7 @@ bootstrap包括大部分表单控件、文本输入域控件，还支持所有 H
 > 只有正确设置了 type 属性的输入控件才能被赋予正确的样式。
 
 + 多选和单选框
-设置了 disabled 属性的单选或多选框都能被赋予合适的样式。对于和多选或单选框联合使用的 <label> 标签，如果也希望将悬停于上方的鼠标设置为“禁止点击”的样式，请将 .disabled 类赋予 .radio、.radio-inline、.checkbox、.checkbox-inline 或 <fieldset>。
+设置了 disabled 属性的单选或多选框都能被赋予合适的样式。对于和多选或单选框联合使用的 <label\> 标签，如果也希望将悬停于上方的鼠标设置为“禁止点击”的样式，请将 .disabled 类赋予 .radio、.radio-inline、.checkbox、.checkbox-inline 或 <fieldset\>。
 ```html 
 <div class="radio disabled">
   <label>
@@ -379,7 +393,7 @@ bootstrap包括大部分表单控件、文本输入域控件，还支持所有 H
 
 通过将 .checkbox-inline 或 .radio-inline 类应用到一系列的多选框（checkbox）或单选框（radio）控件上，可以使这些控件排列在一行。
 
-如果需要 <label> 内没有文字，输入框（input）正是你说期望的。 目前只适用于非内联的 checkbox 和 radio。 请记住，仍然需要为使用辅助技术的用户提供某种形式的 label（例如，使用 aria-label）。
+如果需要 <label\> 内没有文字，输入框（input）正是你说期望的。 目前只适用于非内联的 checkbox 和 radio。 请记住，仍然需要为使用辅助技术的用户提供某种形式的 label（例如，使用 aria-label）。
 ```
 <div class="checkbox">
   <label>
@@ -390,10 +404,10 @@ bootstrap包括大部分表单控件、文本输入域控件，还支持所有 H
 
 + 下拉列表
 很多原生选择菜单 - 即在 Safari 和 Chrome 中 - 的圆角是无法通过修改 border-radius 属性来改变的
-对于标记了 multiple 属性的 <select> 控件来说，默认显示多选项
+对于标记了 multiple 属性的 <select\> 控件来说，默认显示多选项
 
 + 静态控件
-如果需要在表单中将一行纯文本和 label 元素放置于同一行，为 <p> 元素添加 .form-control-static 类即可。
+如果需要在表单中将一行纯文本和 label 元素放置于同一行，为 <p\> 元素添加 .form-control-static 类即可。
 ```
 <div class="form-group">
     <label class="col-sm-2 control-label">Email</label>
@@ -405,7 +419,7 @@ bootstrap包括大部分表单控件、文本输入域控件，还支持所有 H
 
 为输入框设置 disabled 属性可以禁止其与用户有任何交互（焦点、输入等）。被禁用的输入框颜色更浅，并且还添加了 not-allowed 鼠标状态。
 
-为<fieldset> 设置 disabled 属性,可以禁用 <fieldset> 中包含的所有控件。<a> 标签的链接功能不受影响
+为<fieldset\> 设置 disabled 属性,可以禁用 <fieldset\> 中包含的所有控件。<a\> 标签的链接功能不受影响
 
 为输入框设置 readonly 属性可以禁止用户修改输入框中的内容。处于只读状态的输入框颜色更浅（就像被禁用的输入框一样），但是仍然保留标准的鼠标状态。
 
@@ -421,7 +435,7 @@ Bootstrap 对表单控件的校验状态，如 error、warning 和 success 状�
 </div>
 ```
 
-你还可以针对校验状态为输入框添加额外的图标。只需设置相应的 .has-feedback 类并添加正确的图标即可,反馈图标（feedback icon）只能使用在文本输入框 <input class="form-control"> 元素上。
+你还可以针对校验状态为输入框添加额外的图标。只需设置相应的 .has-feedback 类并添加正确的图标即可,反馈图标（feedback icon）只能使用在文本输入框 <input class="form-control"\> 元素上。
 ```
 <div class="form-group has-success has-feedback">
   <label class="control-label" for="inputGroupSuccess1">Input group with success</label>
@@ -434,7 +448,7 @@ Bootstrap 对表单控件的校验状态，如 error、warning 和 success 状�
 </div>
 ```
 
-如果你使用 .sr-only 类来隐藏表单控件的 <label> （而不是使用其它标签选项，如 aria-label 属性）， 一旦它被添加，Bootstrap 会自动调整图标的位置。
+如果你使用 .sr-only 类来隐藏表单控件的 <label\> （而不是使用其它标签选项，如 aria-label 属性）， 一旦它被添加，Bootstrap 会自动调整图标的位置。
 
 通过 .input-lg 类似的类可以为控件设置高度，通过 .col-lg-* 类似的类可以为控件设置宽度。
 
@@ -452,12 +466,12 @@ Bootstrap 对表单控件的校验状态，如 error、warning 和 success 状�
 
 
 ### 按钮
-为 <a>、<button> 或 <input> 元素添加按钮类（button class）即可使用 Bootstrap 提供的样式。
-虽然按钮类可以应用到 <a> 和 <button> 元素上，但是，导航和导航条组件只支持 <button> 元素。
+为 <a\>、<button\> 或 <input\> 元素添加按钮类（button class）即可使用 Bootstrap 提供的样式。
+虽然按钮类可以应用到 <a\> 和 <button\> 元素上，但是，导航和导航条组件只支持 <button\> 元素。
 
-如果 <a> 元素被作为按钮使用 -- 并用于在当前页面触发某些功能 -- 而不是用于链接其他页面或链接当前页面中的其他部分，那么，务必为其设置 role="button" 属性。
+如果 <a\> 元素被作为按钮使用 -- 并用于在当前页面触发某些功能 -- 而不是用于链接其他页面或链接当前页面中的其他部分，那么，务必为其设置 role="button" 属性。
 
-我们总结的最佳实践是：强烈建议尽可能使用 <button> 元素来获得在各个浏览器上获得相匹配的绘制效果
+我们总结的最佳实践是：强烈建议尽可能使用 <button\> 元素来获得在各个浏览器上获得相匹配的绘制效果
 使用 .btn-lg、.btn-sm 或 .btn-xs 就可以获得不同尺寸的按钮
 通过给按钮添加 .btn-block 类可以将其拉伸至父元素100%的宽度，而且按钮也变为了块级（block）元素
 
@@ -484,18 +498,18 @@ Bootstrap 对表单控件的校验状态，如 error、warning 和 success 状�
 <button type="button" class="btn btn-link">（链接）Link</button>
 ```
 
-当按钮处于激活状态时，其表现为被按压下去（底色更深、边框夜色更深、向内投射阴影）。对于 <button> 元素，是通过 :active 状态实现的。对于 <a> 元素，是通过 .active 类实现的。然而，你还可以将 .active 应用到 <button> 上（包含 aria-pressed="true" 属性)），并通过编程的方式使其处于激活状态。
+当按钮处于激活状态时，其表现为被按压下去（底色更深、边框夜色更深、向内投射阴影）。对于 <button\> 元素，是通过 :active 状态实现的。对于 <a\> 元素，是通过 .active 类实现的。然而，你还可以将 .active 应用到 <button\> 上（包含 aria-pressed="true" 属性)），并通过编程的方式使其处于激活状态。
 由于 :active 是伪状态，因此无需额外添加，但是在需要让其表现出同样外观的时候可以添加 .active 类。
 
 通过为按钮的背景设置 opacity 属性就可以呈现出无法点击的效果。
 
-为 <button> 元素添加 disabled 属性，使其表现出禁用状态。为基于 <a> 元素创建的按钮添加 .disabled 类。
+为 <button\> 元素添加 disabled 属性，使其表现出禁用状态。为基于 <a\> 元素创建的按钮添加 .disabled 类。
 
 ### 图片
 在 Bootstrap 版本 3 中，通过为图片添加 .img-responsive 类可以让图片支持响应式布局。其实质是为图片设置了 max-width: 100%;、 height: auto; 和 display: block; 属性，从而让图片在其父元素中更好的缩放。
 如果需要让使用了 .img-responsive 类的图片水平居中，请使用 .center-block 类，不要用 .text-center。 
 
-通过为 <img> 元素添加以下相应的类，可以让图片呈现不同的形状，需要支持 CSS3
+通过为 <img\> 元素添加以下相应的类，可以让图片呈现不同的形状，需要支持 CSS3
 ```
 <img src="..." alt="..." class="img-rounded">
 <img src="..." alt="..." class="img-circle">
@@ -523,24 +537,29 @@ Bootstrap 对表单控件的校验状态，如 error、warning 和 success 状�
 ```
 
 + 关闭按钮
+```
 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
+```
 + 三角符号
+```
 <span class="caret"></span>
-
+```
 + 快速浮动
 排列导航条中的组件时可以使用这些工具类：.navbar-left 或 .navbar-right 
+```
 <div class="pull-left">...</div>
 <div class="pull-right">...</div>
-
+```
 + 让内容块居中
 为任意元素设置 display: block 属性并通过 margin 属性让其中的内容居中
+```
 <div class="center-block">...</div>
-
+```
 + 清除浮动
 通过为父元素添加 .clearfix 类可以很容易地清除浮动（float）。
+```
 <div class="clearfix">...</div>
-
+```
 + 显示或隐藏内容
 .show 和 .hidden 类可以强制任意元素显示或隐藏(对于屏幕阅读器也能起效)。这些类通过 !important 来避免 CSS 样式优先级问题，就像 quick floats 一样的做法。注意，这些类只对块级元素起作用
 
@@ -550,6 +569,7 @@ Bootstrap 对表单控件的校验状态，如 error、warning 和 success 状�
 使用 .text-hide 类或对应的 mixin 可以用来将元素的文本内容替换为一张背景图。
 
 颜色
+```
 @gray-darker:  lighten(#000, 13.5%); // #222
 @gray-dark:    lighten(#000, 20%);   // #333
 @gray:         lighten(#000, 33.5%); // #555
@@ -561,7 +581,7 @@ Bootstrap 对表单控件的校验状态，如 error、warning 和 success 状�
 @brand-info:    #5bc0de;
 @brand-warning: #f0ad4e;
 @brand-danger:  #d9534f;
-
+```
 
 ### modal传数据
 ```html
@@ -609,10 +629,10 @@ $('#exampleModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body input').val(recipient)
 })
 ```
-通过 data 属性或 JavaScript 调用模态框插件，可以根据需要动态展示隐藏的内容。模态框弹出时还会为 <body> 元素添加 .modal-open 类，从而覆盖页面默认的滚动行为，并且还会自动生成一个 .modal-backdrop 元素用于提供一个可点击的区域，点击此区域就即可关闭模态框。
+通过 data 属性或 JavaScript 调用模态框插件，可以根据需要动态展示隐藏的内容。模态框弹出时还会为 <body\> 元素添加 .modal-open 类，从而覆盖页面默认的滚动行为，并且还会自动生成一个 .modal-backdrop 元素用于提供一个可点击的区域，点击此区域就即可关闭模态框。
 
 不需写 JavaScript 代码也可激活模态框。通过在一个起控制器作用的元素（例如：按钮）上添加 data-toggle="modal" 属性，或者 data-target="#foo" 属性，再或者 href="#foo" 属性，用于指向被控制的模态框。
-
+```
 $('#myModal').modal({
   keyboard: false
 })
@@ -620,7 +640,7 @@ $('#myModal').modal('toggle')
 $('#myModal').modal('show')
 $('#myModal').modal('hide')
 $('#myModal').modal('handleUpdate')
-
+```
 show.bs.modal  | show 方法调用之后立即触发该事件。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
 shown.bs.modal | 此事件在模态框已经显示出来（并且同时在 CSS 过渡效果完成）之后被触发。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
 hide.bs.modal  | hide 方法调用之后立即触发该事件。
@@ -648,8 +668,8 @@ Add data-toggle="dropdown" to a link or button to toggle a dropdown.
 
 ### 滚动监听
 滚动监听插件依赖 Bootstrap 的导航组件 用于高亮显示当前激活的链接
-无论何种实现方式，滚动监听都需要被监听的组件是 position: relative; 即相对定位方式。大多数时候是监听 <body> 元素
-
+无论何种实现方式，滚动监听都需要被监听的组件是 position: relative; 即相对定位方式。大多数时候是监听 <body\> 元素
+```
 body {
   position: relative;
 }
@@ -665,10 +685,12 @@ body {
 </body>
 
 $('body').scrollspy({ target: '#navbar-example' })
-
+```
 当使用滚动监听插件的同时在 DOM 中添加或删除元素后，你需要像下面这样调用此刷新（ refresh） 方法
+```
 $('[data-spy="scroll"]').each(function () {
   var $spy = $(this).scrollspy('refresh')
 })
 
 activate.bs.scrollspy |  每当一个新条目被激活后都将由滚动监听插件触发此事件。
+```

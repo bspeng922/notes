@@ -55,22 +55,26 @@ destination – 数据包的目标IP地址
 
 #### 清空所有iptables规则
 在配置iptables之前，你通常需要用iptables --list命令或者iptables-save命令查看有无现存规则，因为有时需要删除现有的iptables规则：
-iptables --flush
+> iptables --flush
+
 或者
-iptables -F
+> iptables -F
 
 #### 永久生效
 + Ubuntu
-iptables-save > /etc/iptables.rules
-iptables-restore < /etc/iptables.rules
+
+> iptables-save > /etc/iptables.rules
+> iptables-restore < /etc/iptables.rules
 
 + CentOS
 保存iptables规则
-service iptables save
+
+> service iptables save
+
 重启iptables服务
-service iptables stop
-service iptables start
-cat  /etc/sysconfig/iptables
+> service iptables stop
+> service iptables start
+> cat  /etc/sysconfig/iptables
 
 #### 追加iptables规则
 可以使用iptables -A命令追加新规则，其中-A表示Append。因此，新的规则将追加到链尾。
@@ -87,6 +91,7 @@ firewall-rule – 具体的规则参数
 如果不指定-p参数，则默认是all值。这并不明智，请总是明确指定协议名称。
 可以使用协议名(如tcp)，或者是协议值（比如6代表tcp）来指定协议。映射关系请查看/etc/protocols
 还可以使用–protocol参数代替-p参数
+
 + -s 源地址（source）
 指定数据包的源地址
 参数可以使IP地址、网络地址、主机名
@@ -94,15 +99,18 @@ firewall-rule – 具体的规则参数
 例如：-s 192.168.1.10/24指定网络地址
 如果不指定-s参数，就代表所有地址
 还可以使用–src或者–source
+
 + -d 目的地址（destination）
 指定目的地址
 参数和-s相同
 还可以使用–dst或者–destination
+
 + -j 执行目标（jump to target）
 -j代表”jump to target”
 -j指定了当与规则(Rule)匹配时如何处理数据包
 可能的值是ACCEPT, DROP, QUEUE, RETURN
 还可以指定其他链（Chain）作为目标
+
 + -i 输入接口（input interface）
 -i代表输入接口(input interface)
 -i指定了要处理来自哪个接口的数据包
@@ -112,6 +120,7 @@ firewall-rule – 具体的规则参数
 如果出现! -i eth0，那么将处理所有经由eth0以外的接口进入的数据包
 如果出现-i eth+，那么将处理所有经由eth开头的接口进入的数据包
 还可以使用–in-interface参数
+
 + -o 输出（out interface）
 -o代表”output interface”
 -o指定了数据包由哪个接口输出
@@ -121,3 +130,10 @@ firewall-rule – 具体的规则参数
 如果出现-i eth+，那么将仅从eth开头的接口输出
 还可以使用–out-interface参数
 
+
+#### 状态 (state)匹配
+
+> iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+“-m”是“匹配”的意思，-m state的意思是匹配数据包状态，用户发来的数据包分别带有不同的状态，即 NEW, ESTABLISHED, 和 RELATED。NEW 就是开头搭讪，ESTABLISHED，就是搭讪完了之后后续的数据包，RELATED就是与已经存在的连接相关的数据包。总之这句话的意思是，接受已经建立了连接的数据包，即搭讪之后的数据包。
+为毛要允许状态ESTABLISHED 和 RELATED的入站数据呢？因为你的服务器同时也是台电脑，还要从别的服务器下载东西。下载时，你的服务器先向别的服务器发出连接请求(new)，别的服务器允许你连接，连接建立(ESTABLISHED)之后，就需要接受别的服务器发来的数据，对于你的服务器来讲属于INPUT。也就是说，如果没有iptables -A INPUT -m state –state ESTABLISHED,RELATED -j ACCEPT这句，wget curl啥的就都不工作了。
