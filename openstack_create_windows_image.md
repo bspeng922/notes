@@ -14,7 +14,7 @@ $ qemu-img create -f qcow2 win7_x64.qcow2 40G
 
 ### 安装系统
 
-```shell
+```
 $ kvm -m 2048 -cdrom cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso -drive file=win7_x64.qcow2,if=virtio -fda virtio-win-0.1.102_amd64.vfd -boot d -nographic -vnc :0
 ```
 
@@ -33,13 +33,13 @@ $ vncview localhost:5900
 需要安装网卡驱动、显卡驱动（qxl）、声卡驱动（ac94）
 
 **安装网卡驱动**
-```shell
+```
 $ kvm -m 2048 -cdrom virtio-win-0.1.102.iso -drive file=win7_x64.qcow2,if=virtio -net nic,model=virtio -net user -boot d -nographic -vnc :0
 ```
 
 **安装显卡、声卡驱动**
 安装完网卡驱动后关闭电脑，用命令重新开机, 也可以和网卡驱动一起安装
-```shell
+```
 $ kvm -m 2048 -drive file=win7_x64.qcow2,if=virtio -net nic,model=virtio -net user -soundhw ac97 -vga qxl -boot d -nographic -vnc :0
 ```
 驱动地址：[smb://192.168.51.100/platform/01Software/03Windows/kvm drivers](smb://192.168.51.100/platform/01Software/03Windows/kvm drivers)
