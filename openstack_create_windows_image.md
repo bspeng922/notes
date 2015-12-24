@@ -36,17 +36,19 @@ $ vncview localhost:5900
 ```shell
 $ kvm -m 2048 -cdrom virtio-win-0.1.102.iso -drive file=win7_x64.qcow2,if=virtio -net nic,model=virtio -net user -boot d -nographic -vnc :0
 ```
+
+**安装显卡、声卡驱动**
 安装完网卡驱动后关闭电脑，用命令重新开机, 也可以和网卡驱动一起安装
 ```shell
 $ kvm -m 2048 -drive file=win7_x64.qcow2,if=virtio -net nic,model=virtio -net user -soundhw ac97 -vga qxl -boot d -nographic -vnc :0
 ```
-**安装显卡、声卡驱动**
-驱动地址：smb://192.168.51.100/platform/01Software/03Windows/kvm drivers
+驱动地址：[smb://192.168.51.100/platform/01Software/03Windows/kvm drivers](smb://192.168.51.100/platform/01Software/03Windows/kvm drivers)
 将驱动拷贝到系统桌面，然后在设备管理页面更新驱动程序，选择对应的驱动目录。
 
 > 如果需要安装一些常用软件，可以再次打开系统进行安装
 > 网络参数可以不加，默认即为 -net nic -net user
 > 如果安装时鼠标不能移动，需要加上参数 -usb -usbdevice tablet 
+
 
 ### 镜像压缩
 系统安装完之后可能会占用很大空间，如果对大小有要求可以使用命令压缩一下
@@ -84,10 +86,6 @@ Format specific information:
     compat: 1.1
     lazy refcounts: false
 ```
-
-
-
-***
 
 
 # Openstack Ubuntu 镜像制作
