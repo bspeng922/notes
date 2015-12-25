@@ -101,18 +101,23 @@ lo        no wireless extensions.
 打开网络面板，点击 **Edit Connections** 
 
 --> 点击 **Add** 按钮 
+
 ![](images/new-conn-tab.png)
 
 --> 选择连接类型为 **Wifi** 
+
 ![](images/conn-type-tab.png)
 
 --> 输入 **Connection name** 、**SSID**， 选择Mode为 **Infrastructure**, Device MAC Address 选择为 **wlan0** 
+
 ![](images/wifi-tab.png)
 
 --> 点击Wi-Fi Security面板，选择Security为 **WPA & WPA2 Personal** 并输入密码 
+
 ![](images/wifi-sec-tab.png)
 
 --> 点击IPv4 Settings面板，选择Method为 **Shared to other computers** 
+
 ![](images/wifi-ip4-tab.png)
 
 --> 点击Save保存
