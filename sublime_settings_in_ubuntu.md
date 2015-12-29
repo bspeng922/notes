@@ -1,5 +1,5 @@
-##Ubuntu 14.04 sublime设置
-###安装：
+# Ubuntu 14.04 sublime设置
+### 安装：
 **下载sublime text3**
 [http://www.sublimetext.com/3](http://www.sublimetext.com/3)
 
@@ -9,6 +9,7 @@
 *其他插件*
 [https://packagecontrol.io/](https://packagecontrol.io/)
 打开sublime，按ctrl+shift+p，输入pi，选择Install Package后回车，输入插件名称就可以安装相应插件:
+
 + svn     #SVN插件
 + sublimerge  #svn diff工具
 + Sidebarenhancement  #边栏
@@ -18,7 +19,7 @@
 + gitgutter   #git插件
 + Anaconda    #代码引用跳转
 
-###输入中文：
+### 输入中文：
 **安装相关依赖**
 ```shell
 $ sudo apt-get install build-essential libgtk2.0-dev
@@ -181,5 +182,5 @@ Exec=/opt/sublime_text/sublime_text --command new_file
 修改为
 Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text --command new_file"
 
-**注意：**
-修改时请注意双引号"",否则会导致不能打开带有空格文件名的文件。
+> **注意：**
+> 修改时请注意双引号"",否则会导致不能打开带有空格文件名的文件。
