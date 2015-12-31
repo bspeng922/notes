@@ -89,18 +89,19 @@ Format specific information:
 
 
 # Openstack Ubuntu 镜像制作
-sudo apt-get install kvm-pxe
 
-wget http://mirrors.usc.edu/pub/linux/distributions/centos/6.2/isos/x86_64/CentOS-6.2-x86_64-LiveDVD.iso
+linux制作和windows类似，不过不需要考虑驱动之类的事情, 不过需要记得安装sshd服务，并开启ssh root登陆
 
-kvm-img create -f qcow2 centos.qcow2 10G
+```
+$ qemu-img create -f qcow2 ubuntu_1404 40G
 
-sudo kvm -m 1024 -cdrom CentOS-6.2-x86_64-LiveDVD.iso -drive file=centos.qcow2,if=virtio,index=0 -boot d -net nic -net user -nographic -vnc :2
+$ kvm -m 1024 -cdrom ubuntu-14.04-server-amd64.iso -drive file=ubuntu_1404,if=virtio -net nic,model=virtio -net user -boot d -nographic -vnc :0
 
-vncviewer :2
+vncviewer :0
 
-sudo kvm -m 1024 -drive file=centos.qcow2,if=virtio,index=0,boot=on -boot c -net nic -net user -nographic -vnc :2
-
+kvm -m 1024 -drive file=ubuntu_1404,if=virtio -net nic,model=virtio -net user -boot d -nographic -vnc :0
+```
 
 ## Openstack 直接使用原始启动盘作为镜像
-创建镜像时直接上传原始启动盘即可
+
+创建镜像时直接上传原始启动盘即可，不过理论上是不可以的。

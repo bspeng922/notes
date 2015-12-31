@@ -24,3 +24,4 @@
 + testdisk
 + uget
 + tldr
++ flash plugin

@@ -11,7 +11,7 @@ sudo yum install terminator
 
 > Ctrl+Shift+E    垂直分割窗口
 > Ctrl+Shift+O    水平分割窗口
->     F11         全屏
+> F11             全屏
 > Ctrl+Shift+C    复制
 > Ctrl+Shift+V    粘贴
 > Ctrl+Shift+N    或者 Ctrl+Tab 在分割的各窗口之间切换
@@ -22,7 +22,7 @@ sudo yum install terminator
 ### 优化配置
 
 安装后可配置让其尽量美化些,terminator配置文件在~/.config/terminator/config 可以通过这个配置文件配置terminator的字体和颜色.
-```
+```ini
 font = Monaco 10  #设置体字
 background_color = "#204070" # 背景颜色
 foreground_color = "#F0F0F0" # 字体颜色
@@ -87,7 +87,7 @@ background_type = transparent # 背景类型可以设置为图片
 [https://github.com/seebi/dircolors-solarized](https://github.com/seebi/dircolors-solarized)
 
 
-**快捷键** 
+### 全部快捷键
 ```
 KEYBINDINGS
 The following keybindings can be used to control Terminator:

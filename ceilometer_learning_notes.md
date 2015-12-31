@@ -1,6 +1,6 @@
-##Ceilometer
+## Ceilometer
 
-###Architecture
+### Architecture
 ![ceilometer架构图](images/ceilo-arch.gif)
 ![ceilometer架构图](images/ceilometer-core.png)
 Ceilometer使用了两种收集数据的方式，一种是消费OpenStack各个服务内发出的notification消息(对应上图中的蓝色箭头)，一种 是通过调用各个服务的API去主动的获取数据(对应上图中的黑色箭头)。
@@ -23,7 +23,7 @@ Message Bus是整个数据流的瓶颈，所有的数据都要经过Message Bus�
 Pipeline虽然不是其中一个组件，但是也是一个重要的机制，它是Agent和Message Bus以及外界之间的桥梁，Agent将收集来的数据发送到pipeline中， 在pipeline中，先经过一组transformer的处理，然后通过Multi Publisher发送出去，可以通过Message Bus发送到Collector，或者是发送到其它的 地方。Pipeline是可配置的，Agent poll数据的时间间隔，以及Transformers和Publishers都是通pipeline.yaml文件进行配置。
 整体上看，Ceilometer对数据流的处理，给人一种大禹治水的感觉。
 
-###Plugin
+### Plugin
 Ceilometer实现的Plugin框架依赖setuptools的Dynamic Discovery of Services and Plugins实现。这是Ceilometer能进行扩展的基础。Ceilometer中有四种类型的Plugin：Poller，Publisher，Notification和Transformer。
 *Poller主要负责被Agent调用去查询数据，返回Counter类型的结果给Agent框架；
 *Notification负责在MQ中监听相关topic的消息（虚拟机创建等），并把他转换成Counter类型的结果给Agent框架。
@@ -40,7 +40,7 @@ Ceilometer实现的Plugin框架依赖setuptools的Dynamic Discovery of Services 
 Host -- Resource -- Meter -- Samples -- statistics
 主机 -- 资源 -- 测量参数 -- 样本数据 -- 统计数据
 
-###ceilometer中的服务组件
+### ceilometer中的服务组件
 在I版的ceilometer的各个服务组件启动是在/ceilometer/cli.py中实现的，而在J版中，是在实体包/celiometer/cmd中实现的。结合配置文件setup.cfg中的内容，可见主要有以下几个服务组件：
 ```ini
 console_scripts = 
@@ -122,7 +122,7 @@ AlarmNotifierService中的方法notify_alarm是具体实现报警器触发后的
 _handle_action
 notifier.notify
 
-####ceilometer-alarm-evaluator
+#### ceilometer-alarm-evaluator
 **初始化**
 ```python
 def alarm_evaluator():
@@ -249,7 +249,7 @@ class Service(service.Service):
 在上面的分析中，我们看到在服务初始化和启动的过程中，若干方法都是多重父类继承，这里需要注意的是父类方法的搜索顺序；实际上python经典类的父类方法搜索顺序是深度优先，而python新式类的父类方法搜索顺序是广度优先；
 
 
-###ceilometer-agent-central服务的初始化和启动
+### ceilometer-agent-central服务的初始化和启动
 
 
 ##### clear_expired_metering_data
