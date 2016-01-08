@@ -25,3 +25,4 @@
 + uget
 + tldr
 + flash plugin
++ deadbeef  /  Audacious

@@ -2,7 +2,7 @@
 
 
 
-## Install/Uninstall MongoDB
+## 安装/卸载 MongoDB
 
 ```shell
 # Install --------------------
@@ -36,11 +36,49 @@ $ sudo rm -r /var/lib/mongodb
 > MongoDB stores documents in collections. Collections are analogous to tables in relational databases. Unlike a table, however, a collection does not require its documents to have the same schema. 
 > In MongoDB, documents stored in a collection must have a unique _id field that acts as a primary key.
 
-Documents 就相当于关系型数据中的一条记录，Collections就类似关系型数据库中的一张表。二者关系如下图所示：
-![images/mongo-stages.png](images/mongo-stages.png)
+Documents 就相当于关系型数据中的一条记录，Collections就类似关系型数据库中的一张表。
 
-**MongoDB 和关系型数据库对应关系**
-![images/mongdb-mysql.jpg](images/mongdb-mysql.jpg)
+| RDBMS |  MongoDB|
+| ------ |:--------------:|
+| Database  |  Database|
+| Table |  Collection|
+| Tuple/Row  | Document|
+| column | Field|
+| Table Join|  Embedded Documents|
+| Primary Key| Primary Key (Default key _id provided by mongodb itself)|
+
+
+### mongodb数据类型
+
++ String : This is most commonly used datatype to store the data. String in mongodb must be UTF-8 valid.
+
++ Integer : This type is used to store a numerical value. Integer can be 32 bit or 64 bit depending upon your server.
+
++ Boolean : This type is used to store a boolean (true/ false) value.
+
++ Double : This type is used to store floating point values.
+
++ Min/ Max keys : This type is used to compare a value against the lowest and highest BSON elements.
+
++ Arrays : This type is used to store arrays or list or multiple values into one key.
+
++ Timestamp : ctimestamp. This can be handy for recording when a document has been modified or added.
+
++ Object : This datatype is used for embedded documents.
+
++ Null : This type is used to store a Null value.
+
++ Symbol : This datatype is used identically to a string however, it's generally reserved for languages that use a specific symbol type.
+
++ Date : This datatype is used to store the current date or time in UNIX time format. You can specify your own date time by creating object of Date and passing day, month, year into it.
+
++ Object ID : This datatype is used to store the document’s ID.
+
++ Binary data : This datatype is used to store binay data.
+
++ Code : This datatype is used to store javascript code into document.
+
++ Regular expression : This datatype is used to store regular expression
 
 
 
@@ -65,8 +103,15 @@ $ mongo
 # 切换到某个数据库
 > use <db>
 
+# 删除某个数据库，删除前需要先切换数据库
+> use <db>
+> db.dropDatabase()
+
 # 查看所有的collection
 > show collections
+
+# 创建collection
+> db.createCollection("mycollection")
 
 # 查看所有的用户
 > show users
@@ -86,6 +131,8 @@ $ mongo
 
 # 查询数据
 > db.restaurants.find()
+> db.restaurants.find().limit(NUMBER)
+> db.restaurants.find().limit(NUMBER).skip(NUMBER)
 > db.restaurants.find( { "borough": "Manhattan" } )
 > db.restaurants.find( { "address.zipcode": "10075" } )
 > db.restaurants.find( { "grades.score": { $gt: 30 } } )
@@ -93,6 +140,7 @@ $ mongo
 > db.restaurants.find(
    { $or: [ { "cuisine": "Italian" }, { "address.zipcode": "10075" } ] }
 )
+# 1 is used for ascending order while -1 is used for descending order.
 > db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
 
 # 更新数据
