@@ -57,4 +57,6 @@ def get_guest_cpu_topology(self, inst_type, image, preferred_topology, mandatory
 $ kvm -m 2048 -smp 4,sockets=2,cores=1,threads=2 -drive file=win7_x64_pure,if=virtio -net nic,model=virtio -net user -usb -usbdevice tablet -soundhw ac97 -vga qxl -boot d -nographic -vnc :0
 ```
 
+![](images/image-cinfo-ok.png)
+
 参考文档： [Virtualization Driver Guest CPU Topology](https://wiki.openstack.org/wiki/VirtDriverGuestCPUTopology)
