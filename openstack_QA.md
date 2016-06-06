@@ -45,7 +45,7 @@
     * whl格式：这个是Wheel包，也是一个压缩文件，只是扩展名换了，里面也包含了项目元数据和代码，还支持免安装直接运行。whl分发包内的元数据和egg包是有些不同的。这个格式是由PEP 427引入的。可以通过命令python setup.py bdist_wheel生成。
 
 
-9. 将vdx 更改为sdx
+9. **将vdx 更改为sdx**
 
     可以通过修改镜像的属性（hw_disk_bus）来实现硬盘设备名称的更改，也可以在创建镜像的时候添加,更新完之后通过镜像创建云主机，硬盘设备名称将会变成sdxx
 
@@ -83,12 +83,12 @@
     参考页面：[Create or update an image (glance)](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Administration_User_Guide/cli_manage_images.html)
 
 
-10. windows实例能够ping通，但是不能上网
+10. **windows实例能够ping通，但是不能上网**
 
     需要手动指定DNS服务器地址
 
 
-11. windows能够访问共享，但是无法下载、ssh等
+11. **windows能够访问共享，但是无法下载、ssh等**
 
     因为windows自动获取IP地址的时候并不会协商MTU，所以GRE模式下的windows实例需要手动修改MTU值为1400，修改步骤：
 
@@ -97,3 +97,38 @@
     >    Type the command interface and wait for prompt
     >    Type the command ipv4 and wait for prompt
     >    Type the command set subinterface "Local Area Connection" mtu=xxxx store=persistent
+
+
+12. **Windows guest 内存显示不准**
+    
+    windows 需要安装spice-guest-tools，需要启动vdagent  vdservice 才能获得准确的内存使用情况，ballon才能正常使用。
+
+    ```
+    root@compute3:~# virsh dommemstat 51
+    actual 8388608
+    rss 8438800
+
+    root@compute3:~# virsh dommemstat 51
+    actual 8388608
+    swap_in 0
+    swap_out 0
+    major_fault 32
+    minor_fault 9761
+    unused 7361896
+    available 8388208
+    rss 8435844
+    ```
+
+
+13. **vdagent CPU使用率过高**
+    
+    将xml文件中的 channel 由pty 改为 spicevmc即可，
+    ```
+     class LibvirtConfigGuestCharBase(LibvirtConfigGuestDevice):
+
+         def __init__(self, **kwargs):
+             super(LibvirtConfigGuestCharBase, self).__init__(**kwargs)
+
+        *        self.type = "pty"
+        -        self.type = "spicevmc"
+    ```
