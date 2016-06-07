@@ -113,3 +113,8 @@ apt-get install libxml2-dev
 + configure: error: spice-gtk requested but not found
 
 spice编译的有问题，ARM 默认使用/bin/sh，使用/bin/bash打包会有问题！！！    
+
+
++ 虚拟机 spice://192.168.13.11:5900 的未知图形类型
+
+这个是因为 ARM 版本 virt-viewer 默认只支持VNC的虚拟机，需要重新编译安装virt-viewer
