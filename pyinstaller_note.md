@@ -56,6 +56,70 @@ main.py    程序的入口文件，如果有多个文件也只要入口文件就
 如果有ini配置文件、或者有图片等文件，可以等pyinstaller打包后直接拷贝到dist目录中即可使用
 
 
+## pyinstaller in arm
+
+pyinstaller 默认只支持x86架构，直接在arm平台打包，会提示没有预编译的bootloader
+
+> Fatal error: PyInstaller does not include a pre-compiled bootloader for your
+platform. 
+
+![No Bootloader](images/no-pre-bootloader.png)
+
+这个问题只要在arm平台上重新生成一下bootloader即可解决，官方文档：[http://pythonhosted.org/PyInstaller/bootloader-building.html](http://pythonhosted.org/PyInstaller/bootloader-building.html)
+
+
+### 生成bootloader
+
+cd bootloader
+python ./waf distclean all
+
+这边提示lsbcc程序不存在，需要手动安装lsb-build-cc，具体步骤如下
+
+![No lsbcc](images/no-lsbcc.png)
+
+
+### 准备环境
+
+Development tools
+
+```
+sudo apt-get install build-essential 
+```
+
+
+### 安装lsbcc
+
+installed the LSB tools
+在/etc/apt/sources.list文件中加入源
+
+deb http://ftp.linux-foundation.org/pub/lsb/repositories/debian lsb-4.0 main
+
+```
+sudo apt-get update
+sudo apt-get install lsb lsb-build-cc
+```
+
+也可以直接下载安装（下载地址：[http://ftp.linuxfoundation.org/pub/lsb/bundles/released-4.0.0/sdk/](http://ftp.linuxfoundation.org/pub/lsb/bundles/released-4.0.0/sdk/)）
+
+```
+tar -xvzf lsb-sdk-4.0.3-1.ia32.tar.gz
+cd lsb-sdk
+./install.sh
+```
+
+
+### 遇到的问题
+
++ PyInstaller.compat.FileNotFoundError: Path or glob "/usr/include/python2.7/pyconfig.h" not found or matches no files.
+
+需要安装python-dev
+
+```
+apt-get install build-essential python-dev
+```
+
+
+
 # Inno Setup 打包
 pyinstaller打包后的目录可以使用inno setup 打包为可安装的exe文件，需要注意的是桌面快捷方式和安装依赖程序。
 

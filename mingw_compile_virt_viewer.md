@@ -89,7 +89,7 @@ mingw64-make install
 
 ### 遇到的问题
 
-1. glib-genmashal: command not found
++ glib-genmashal: command not found
 
 ![glit-genmashal not found](images/glit-genmashal-not-found.png)
 
@@ -100,7 +100,7 @@ yum install glib2-devel
 ```
 
 
-2. Failed to create service named pipe
++ Failed to create service named pipe
 
 ![failed to create pipe service](images/failed-to-create-pipe-service.png)
 
@@ -109,19 +109,19 @@ yum install glib2-devel
 USBDK下载地址：[http://www.spice-space.org/download/windows/UsbDk/](http://www.spice-space.org/download/windows/UsbDk/)
 
 
-3. 提示mingw-spice-protocal 版本太低
++ 提示mingw-spice-protocal 版本太低
 
 只要下载新版本的mingw-spice-protocal更新一下就可以了
 
 mingw-spice-protocol-0.12.11下载地址：[http://koji.fedoraproject.org/koji/buildinfo?buildID=744124](http://koji.fedoraproject.org/koji/buildinfo?buildID=744124)
 
 
-4. Virt-Viewer菜单定制
++ Virt-Viewer菜单定制
 
 修改share\virt-viewer\ui\virt-viewer.xml文件，删除child，即可删除对应的菜单项
 
 
-5. 修改标题栏
++ 修改标题栏
 
 修改 src\remote_viewer_main.c 文件，将 Remote Viewer改为其他字符串即可。
 
