@@ -70,8 +70,13 @@ platform.
 
 ### 生成bootloader
 
+```
 cd bootloader
 python ./waf distclean all
+
+# 因为官方提供的LSB Tools的源有问题，所以可以直接忽略lsb
+python ./waf configure --no-lsb all
+```
 
 这边提示lsbcc程序不存在，需要手动安装lsb-build-cc，具体步骤如下
 
