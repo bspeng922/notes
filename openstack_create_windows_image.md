@@ -62,6 +62,12 @@ $ ll -h
 ### 上传镜像
 ```shell
 $ glance image-create --name="Win7 x64" --is-public=true --container-format=ovf --disk-format=qcow2 < win7_x64_new.qcow2
+$ glance image-create --name F20-x86_64 --disk-format qcow2 --container-format bare --is-public True < fedora-image.qcow2
+
+$ openstack image create "cirros" \
+  --file cirros-0.3.4-x86_64-disk.img \
+  --disk-format qcow2 --container-format bare \
+  --public
 ```
 
 ### 调整源磁盘大小
@@ -105,3 +111,35 @@ kvm -m 1024 -drive file=ubuntu_1404,if=virtio -net nic,model=virtio -net user -b
 ## Openstack 直接使用原始启动盘作为镜像
 
 创建镜像时直接上传原始启动盘即可，不过理论上是不可以的。
+
+
+```shell
+----------Centos
+# qemu-img create -f qcow2 centos.qcow2 10G
+
+# virt-install --virt-type kvm --name centos --ram 1024 \
+  --disk centos7.qcow2,format=qcow2 \
+  --network network=default \
+  --graphics vnc,listen=0.0.0.0 --noautoconsole \
+  --os-type=linux --os-variant=rhel7 \
+  --location=CentOS-7-x86_64-Minimal-1511.iso
+
+qemu-img convert -c centos7.qcow2 -O qcow2 centos_7_x86_64.qcow2
+```
+
+```shell
+----------Ubuntu
+
+# qemu-img create -f qcow2 ubuntu.qcow2 10G
+
+# virt-install --virt-type kvm --name ubuntu --ram 1024 \
+  --cdrom=ubuntu-14.04.5-server-amd64.iso \
+  --disk ubuntu.qcow2,format=qcow2 \
+  --network network=default \
+  --graphics vnc,listen=0.0.0.0 --noautoconsole \
+  --os-type=linux --os-variant=ubuntutrusty
+
+qemu-img convert -c ubuntu.qcow2 -O qcow2 Ubuntu_1404_x86_64.qcow2
+```
+
+
