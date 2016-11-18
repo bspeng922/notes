@@ -8,7 +8,7 @@
 4. Create YUM Repository Configuration file
 
 
-### 开启yum缓存
+## 开启yum缓存
 
 需要将 keepcache 的值设置为 1 , 缓存下来的包可以在 /var/cache/yum/x86_64/7/base/packages/ 目录中看到。
 
