@@ -60,21 +60,20 @@ systemctl restart openstack-nova-compute.service
 ```
 
 
-PS：
-Newton 版本需要修改horizon 的local_setting 配置文件，否则页面上还会引用vnc路径，控制台页面提示控制节点“拒绝了我们的连接请求”。 
-
-需要将
-
-```
-CONSOLE_TYPE = "AUTO"
-```
-
-改为
-
-```
-CONSOLE_TYPE = "SPICE"
-```
-
+> Newton 版本需要修改horizon 的local_setting 配置文件，否则页面上还会引用vnc路径，控制台页面提示控制节点“拒绝了我们的连接请求”。 
+>
+> 需要将
+> 
+> ```
+> CONSOLE_TYPE = "AUTO"
+> ```
+> 
+> 改为
+> 
+> ```
+> CONSOLE_TYPE = "SPICE"
+> ```
+> 
 
 
 

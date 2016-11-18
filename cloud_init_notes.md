@@ -1,17 +1,18 @@
 # cloud init
 
-User configurability
-Cloud-init ‘s behavior can be configured via user-data.
+## 介绍
+User configurability Cloud-init ‘s behavior can be configured via user-data.
 
-User-data can be given by the user at instance launch time.
-This is done via the --user-data or --user-data-file argument to ec2-run-instances for example.
+User-data can be given by the user at instance launch time.This is done via the --user-data or --user-data-file argument to ec2-run-instances for example.
 
+
+## 使用
+
+cloud init 使用的前提是镜像中已经安装了cloud-init 包，如果使用python代码（三个双引号）动态生成 user-data，需要注意的是行前一定不要留有空格，否则脚本不能执行！
 
 ### 执行shell脚本
 
 Begins with: #! or Content-Type: text/x-shellscript when using a MIME archive.
-
-Example
 
 ```shell
 $ cat myscript.sh
@@ -32,20 +33,22 @@ sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_
 service ssh restart
 ```
 
+### 执行cloud-config配置
+
 ```
 #cloud-config
 ssh_pwauth: true
 disable_root: 0
 user: root
-password: abc123
+password: 123456
 chpasswd:
   expire: false
 ```
 
-首先, 这个文件把一般云主机里面的 ssh 密码认证打开, 默认关闭的
-然后, 通过 disable_root 允许 root 认证, 默认关闭
-将 root 的密码设置为 abc123
-如果不设置 chpasswd 的 expire 为 false, 那么登陆的时候会提示马上修改密码才能进去
+> 首先, 这个文件把一般云主机里面的 ssh 密码认证打开, 默认关闭的
+> 然后, 通过 disable_root 允许 root 认证, 默认关闭
+> 将 root 的密码设置为 abc123
+> 如果不设置 chpasswd 的 expire 为 false, 那么登陆的时候会提示马上修改密码才能进去
 
 
 ### 同时传递多种格式/多个文件的 user-data
@@ -95,7 +98,6 @@ print "This is a user script (rc.local)\n"
 
 --===============2197920354430400835==--
 ```
-
 
 
 ### 无法获取控制台日志
