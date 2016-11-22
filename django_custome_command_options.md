@@ -6,12 +6,12 @@
 
 + 目录结构
 
-> myapp/
-> |-- management/
-> |   |-- commands/
-> |       `-- data_import.py
-> |   |   `-- __init__.py
-> |   `-- __init__.py
+myapp/
+|-- management/
+|   |-- commands/
+|       `-- data_import.py
+|   |   `-- __init__.py
+|   `-- __init__.py
 
 + data_import.py 文件内容
 
