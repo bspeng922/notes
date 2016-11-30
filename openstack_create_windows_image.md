@@ -96,7 +96,7 @@ Format specific information:
 
 # Openstack Ubuntu 镜像制作
 
-linux制作和windows类似，不过不需要考虑驱动之类的事情, 不过需要记得安装sshd服务，并开启ssh root登陆
+linux制作和windows类似，不过不需要考虑驱动之类的事情, 需要记得安装sshd服务，并开启ssh root登陆,在虚拟机镜像里的分区，其实和物理机器是有很多的区别和不同。例如你做镜像的时候，不需要swap分区，也不建议你使用lvm分区。
 
 ```
 $ qemu-img create -f qcow2 ubuntu_1404 40G
