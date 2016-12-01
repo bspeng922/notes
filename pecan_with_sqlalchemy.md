@@ -86,15 +86,20 @@ def setup_app(config):
 > on HTTP POST, PUT, and DELETE requests, TransactionHook takes care of the transaction automatically by following these rules
 > 
 > 1. Before controller routing has been determined, model.start() is called. This function should bind to the appropriate SQLAlchemy engine and start a transaction.
+> 
 > 2. Controller code is run and returns.
+> 
 > 3. If your controller or template rendering fails and raises an exception, model.rollback() is called and the original exception is re-raised. This allows you to rollback your database transaction to avoid committing work when exceptions occur in your application code.
+> 
 > 4. If the controller returns successfully, model.commit() and model.clear() are called.
 > 
 > 
 > On idempotent operations (like HTTP GET and HEAD requests), TransactionHook handles transactions following different rules.
 > 
 > 1. model.start_read_only() is called. This function should bind to your SQLAlchemy engine.
+> 
 > 2. Controller code is run and returns.
+> 
 > 3. If the controller returns successfully, model.clear() is called.
 > 
  
