@@ -62,3 +62,29 @@ docker images命令可以列出所有安装过的镜像。
 docker push命令可以将某一个镜像发布到官方网站。
 你只能将镜像发布到自己的空间下面。
 
+
+
+## 运行容器
+
+docker run -d -it -p 8009:8000 django /bin/bash
+
+docker run - 运行一个容器
+-d - 后台运行
+-t - 分配一个（伪）tty (link is external)
+-i - 交互模式 (so we can interact with it)
+-p - 端口映射
+django - 使用django镜像
+/bin/bash - 运行命令 bash shell
+
+```
+[root@controller ~]# docker run -d -it -p 8009:8000 django /bin/bash
+d2d2c81f6b330259dc2b4a7b0c5cb0050b60b63384819f149f3201063bd0f76c
+[root@controller ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                            PORTS                    NAMES
+d2d2c81f6b33        django              "/bin/bash"         16 seconds ago      Up 14 seconds                     0.0.0.0:8009->8000/tcp   prickly_feynman
+deff027ce837        django              "/bin/bash"         10 minutes ago      Exited (127) About a minute ago                            hungry_archimedes
+8d1d62f710de        django:latest       "/bin/bash"         3 days ago          Exited (127) 3 days ago                                    suspicious_newton
+1ac62ac4c5b5        hello-world         "/hello"            3 days ago          Exited (0) 3 days ago                                      agitated_northcutt
+[root@controller ~]# docker port d2d2c81f6b33
+8000/tcp -> 0.0.0.0:8009
+```

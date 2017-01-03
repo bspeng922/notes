@@ -142,4 +142,3 @@ qemu-img convert -c centos7.qcow2 -O qcow2 centos_7_x86_64.qcow2
 qemu-img convert -c ubuntu.qcow2 -O qcow2 Ubuntu_1404_x86_64.qcow2
 ```
 
-

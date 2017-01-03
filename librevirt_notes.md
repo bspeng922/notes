@@ -11,40 +11,72 @@
 ## 常用操作
 
 ```
-mtj@mtj-desktop:~/libvtest$ virsh create react-qemu.xml
-Connecting to uri: qemu:///system
-Domain ReactOS-on-QEMU created from react-qemu.xml
 
-mtj@mtj-desktop:~/libvtest$ virsh list
-Connecting to uri: qemu:///system
- Id Name                 State
-----------------------------------
-  1 ReactOS-on-QEMU      running
+1. 查看当前所有的虚拟机
+virsh list --all
 
-mtj@mtj-desktop:~/libvtest$ virsh suspend 1
-Connecting to uri: qemu:///system
-Domain 1 suspended
+2. 查看虚拟机对应的端口号
+virsh vncdisplay centos
 
-mtj@mtj-desktop:~/libvtest$ virsh list
-Connecting to uri: qemu:///system
- Id Name                 State
-----------------------------------
-  1 ReactOS-on-QEMU      paused
+3. 查看当前的网络
+virsh net-list --all
 
-mtj@mtj-desktop:~/libvtest$ virsh resume 1
-Connecting to uri: qemu:///system
-Domain 1 resumed
+4. 启动default网络
+virsh net-start default
 
-[root@compute2 isos]# virsh vncdisplay centos
-:0
+5. 创建虚拟磁盘文件
+qemu-img create -f qcow2 centos.qcow2 10G
 
-[root@compute2 ~]# virsh net-start default
-Network default started
+6. 启动虚拟机
+virt-install --virt-type kvm --name centos --ram 1024 \
+  --disk centos7.qcow2,format=qcow2 \
+  --network network=default \
+  --graphics vnc,listen=0.0.0.0 --noautoconsole \
+  --os-type=linux --os-variant=rhel7 \
+  --location=CentOS-7-x86_64-Minimal-1511.iso
 
-[root@compute2 ~]# virsh net-list
- Name                 State      Autostart     Persistent
-----------------------------------------------------------
- default              active     no            yes
+
+7. 关闭虚拟机
+virsh shutdown centos
+
+8. 删除虚拟机
+virsh destroy centos
+
+9. 删除域
+virsh undefine centos
+
+10. 克隆虚拟机
+virt-clone \
+     --original demo \
+     --name newdemo \
+     --file /var/lib/xen/images/newdemo.img
+
+11. 暂停虚拟机
+virsh suspend centos
+
+12. 继续虚拟机
+virsh resume centos
+
+13. 压缩磁盘文件
+qemu-img convert -c -O qcow2 centos.qcow2 centos-c.qcow2
+
+14. 查看磁盘文件信息
+qemu-img info centos.qcow2
+
+15. 查看虚拟机配置文件
+virsh dumpxml centos
+
+16. 编辑虚拟机配置
+virsh edit centos
+
+17. 挂载iso文件
+virsh attach-disk --type cdrom --mode readonly centos "centos.iso" hdc
+
+18. 删除mac地址文件（linux）
+virt-sysprep -d centos
+
+19. 查看虚拟机的IP地址
+arp | grep `virsh dumpxml centos-su | sed -n '/mac address/p' | awk -F"[']" '{print $2}'` | awk '{printf $1}'
 
 ```
 
@@ -139,3 +171,15 @@ Network default started
 
 ```
 
+
+
+
+### Failed to bind socket: Permission denied
+
+```
+Unable to complete install: 'internal error: process exited while connecting to monitor: 2015-07-29T22:39:54.330608Z qemu-system-x86_64: -chardev socket,id=charchannel0,path=/var/lib/libvirt/qemu/channel/target/centos7_base.org.qemu.guest_agent.0,server,nowait: Failed to bind socket: Permission denied'
+
+解决方法是将xml文件中的 unix 那段删掉
+virsh edit centos
+
+```
