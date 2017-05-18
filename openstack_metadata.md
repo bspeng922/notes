@@ -12,3 +12,28 @@ OpenStack 提供了 RESTful 接口，虚拟机可以通过 REST API 来获取 me
 
 
 虚拟机获取 metadata 的大致流程为：首先请求被发送至 neutron-ns-metadata-proxy，此时会在请求中添加 router-id 和 network-id，然后请求通过 unix domian socket 被转发给 neutron-metadata-agent，根据请求中的 router-id、network-id 和 IP，获取 port 信息，从而拿到 instance-id 和 tenant-id 加入请求中，最后请求被转发给 nova-api-metadata，其利用 instance-id 和 tenant-id 获取虚拟机的 metadata，返回相应。
+
+
+-----------
+
+
+通过SSH使用PEM文件登录
+
+ssh -i key.pem root@192.168.1.1
+
+默认会提示  Permission denied (publickey).
+
+这个问题是说这个文件的权限太大了，需要给小点
+所以就执行：
+sudo chmod 600 key.pem
+
+
+然后再执行ssh -i key.pem root@192.168.1.1就可以了
+
+最方便的还是使用ssh-add 添加一下键文件，以后访问方便点
+ssh-add -k key.pem 
+
+执行完上面的命令后下次就只需要像普通ssh那样访问就可以了，如下：
+ssh root@192.168.1.1
+
+-------------

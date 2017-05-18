@@ -18,6 +18,17 @@ $ qemu-img create -f qcow2 win7_x64.qcow2 40G
 $ kvm -m 2048 -cdrom cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso -drive file=win7_x64.qcow2,if=virtio -fda virtio-win-0.1.102_amd64.vfd -boot d -nographic -vnc :0
 ```
 
+```
+virt-install --connect qemu:///system \
+    --name win7vnc --ram 2048 --vcpus=2 --cpuset=auto \
+    --disk path=win7.img,bus=virtio,size=100,format=qcow2 \
+    --network=network=default,model=virtio,mac=RANDOM \
+    --graphics vnc,port=5900
+    --disk device=cdrom,path=../../isos/virtio-win-0.1-81.iso \
+    --disk device=cdrom,path=../../isos/win7_sp1_ult_64bit/Windows\ 7\ SP1\ Ultimate\ \(64\ Bit\).iso \
+    --os-type=windows --os-variant=win7 --boot cdrom,hd 
+```
+
 **连接VNC进行系统安装**
 这里的端口号根据上一步 -vnc :0 推移，如果是-vnc :1则是5901端口
 ```shell
@@ -67,12 +78,25 @@ $ glance image-create --name F20-x86_64 --disk-format qcow2 --container-format b
 $ openstack image create "cirros" \
   --file cirros-0.3.4-x86_64-disk.img \
   --disk-format qcow2 --container-format bare \
-  --public
+  --public --progress
 ```
+
+### 修改windowsMTU
+netsh interface ipv4 show subinterfaces 
+netsh interface ipv4 set subinterface "本地连接" mtu=1450 store=persistent
 
 ### 调整源磁盘大小
 ```shell
 #qemu-img resize filename [+|-]size
+```
+
+### update administrator password and create new user 
+```
+#ps1_sysnative
+net user Administrator /active:yes
+net user Administrator password
+net user cpuser password /add
+net localgroup Administrators cpuser /add
 ```
 
 当使用此命令收缩磁盘镜像之前,必须使用客户机的文件系统和分区工具来收缩文件系统和分区,然后再执行resize操作,不然会可能丢失数据。当使用此命令扩大了磁盘镜像之后,必须使用客户机的文件系统和分区工具来使用新增加的磁盘容量。这很好理解,KVM支持的客户机操作系统多种多样,而且都有成熟的文件系统和分区操作工具,resize操作只是简单的扩大或缩小磁盘镜像大小,而不能也无需来了解客户机怎么应对这个改变,这是客户机的事情。
@@ -142,3 +166,26 @@ qemu-img convert -c centos7.qcow2 -O qcow2 centos_7_x86_64.qcow2
 qemu-img convert -c ubuntu.qcow2 -O qcow2 Ubuntu_1404_x86_64.qcow2
 ```
 
+
+### 命令行创建虚拟机
+
+```
+openstack server create --flavor cf1c7c26-b63d-410f-8082-b0456bb9acf9 --image 9c4a982c-97e8-4ba3-82c6-fc9401915f96 --security-group default --nic net-id=a47e560f-e306-4111-9023-9fb786ce003d,v4-fixed-ip=172.16.100.10  --availability-zone nova:compute6  clidemo 
+```
+
+
+### Error:
+
+bash: virt-install: command not found
+
+sudo apt-get install virtinst
+
+
+
+### Error
+
+Network not found: no network with matching name 'default'
+
+find / -name "default.xml"
+sudo virsh net-define /etc/libvirt/qemu/networks/default.xml
+sudo virsh net-start default

@@ -77,3 +77,8 @@ systemctl restart openstack-nova-compute.service
 
 
 
+----
+
+vnc 地址需要配置为IP地址，配置为controller，页面上会提示无法连接
+
+

@@ -76,7 +76,7 @@ ctrl+d    #结束消息
 
 + 踢掉在线终端
 ```shell
-root@controller:~# pkill -t pts/4
+root@controller:~# pkill -kill -t pts/4
 ```
 
 + 查看授权日志

@@ -132,3 +132,11 @@
         *        self.type = "pty"
         -        self.type = "spicevmc"
     ```
+
+14. nova resize 失败
+
+控制和计算节点上设置 allow_resize_to_same_host = true，并重启nova服务
+
+
+
+
