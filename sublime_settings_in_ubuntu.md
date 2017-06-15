@@ -184,3 +184,60 @@ Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime
 
 > **注意：**
 > 修改时请注意双引号"",否则会导致不能打开带有空格文件名的文件。
+
+
+
+### User Setting
+
+```
+{
+  "always_show_minimap_viewport": true,
+  "bold_folder_labels": true,
+  "caret_style": "solid",
+  "color_scheme": "Packages/User/SublimeLinter/base16-eighties.dark (SL).tmTheme",
+  "draw_minimap_border": true,
+  "enable_telemetry": false,
+  "ensure_newline_at_eof_on_save": true,
+  "folder_exclude_patterns":
+  [
+    ".svn",
+    ".git",
+    ".hg",
+    "CVS",
+    "__pycache__"
+  ],
+  "font_face": "Meslo LG L",
+  "font_options":
+  [
+    "subpixel_antialias"
+  ],
+  "font_size": 12,
+  "highlight_line": true,
+  "highlight_modified_tabs": true,
+  "ignored_packages":
+  [
+    "Vintage"
+  ],
+  "indent_guide_options":
+  [
+    "draw_active",
+    "draw_normal"
+  ],
+  "indent_to_bracket": true,
+  "line_padding_bottom": 0,
+  "line_padding_top": 0,
+  "preview_on_click": false,
+  "rulers":
+  [
+    79
+  ],
+  "shift_tab_unindent": true,
+  "show_panel_on_build": false,
+  "soda_classic_tabs": true,
+  "soda_folder_icons": false,
+  "theme": "Spacegray.sublime-theme",
+  "translate_tabs_to_spaces": true,
+  "trim_trailing_white_space_on_save": true,
+  "wrap_width": 80
+}
+```

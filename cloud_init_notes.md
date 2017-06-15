@@ -372,3 +372,16 @@ runcmd:
 ```
 
 
+
+# Cloud Base init
+
+cloudbase-init 
+
+```
+#ps1_sysnative
+net user {username} "{password}" /add /y
+net localgroup Administrators "{username}" /add /y
+net localgroup "Remote Desktop Users" "{username}" /add /y
+net user {username} "{password}"
+```
+

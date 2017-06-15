@@ -257,4 +257,39 @@ service supervisord start
 ```
 
 
+## ubuntu 1604 
+
+You need to execute the command for starting a service at system up. For systemd on Ubuntu 16.04, this would be:
+
+```
+sudo systemctl enable supervisor
+```
+
+Also your command to start the service should be updated to:
+
+```
+sudo systemctl start supervisor
+```
+
+
+The path of supervisord was wrong in default setting, it was /usr/bin. but pip install will put it in /usr/local/bin.
+
+I fix the problem by edit /lib/systemd/system/supervisor.service, and best to use command install supervisor easy_install supervisor
+
+```
+[Unit]
+Description=Supervisord Service
+
+[Service]
+ExecStart=/usr/local/bin/supervisord -n -c /etc/supervisord.conf
+ExecStop=/usr/local/bin/supervisorctl $OPTIONS shutdown
+ExecReload=/usr/local/bin/supervisorctl -c /etc/supervisord.conf $OPTIONS reload
+KillMode=process
+Restart=on-failure
+RestartSec=50s
+
+
+[Install]
+WantedBy=multi-user.target
+```
 

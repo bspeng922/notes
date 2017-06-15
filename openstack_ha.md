@@ -131,6 +131,13 @@ vim /etc/haproxy/haproxy.cfg
 vim /usr/local/haproxy/haproxy.cfg 
 
 ```
+[WARNING] 000/192001 (45698) : config : log format ignored for proxy 'swift_proxy_cluster' since it has no log address.
+
+groupadd haproxy
+useradd -g haproxy haproxy
+```
+
+```
 global
   chroot  /var/lib/haproxy
   daemon
@@ -364,3 +371,22 @@ sysctl -p        #保存结果，使结果生效
 
 net.ipv4.ip_forward = 1
 ```
+
+
+
+## memcached ha
+
+config horizon
+
+```
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'controller1:11211;controller2:11211',
+    },
+}
+```
+
+
+
+
