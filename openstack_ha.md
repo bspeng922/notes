@@ -38,6 +38,7 @@ echo hapass | passwd --stdin hacluster
 pcs cluster auth controller1 controller2 controller3 -u hacluster -p hapass --force
 pcs cluster setup --force --name openstack-cluster controller1 controller2 controller3
 pcs cluster start --all
+pcs cluster enable --all
 
 ```
 
@@ -103,6 +104,13 @@ pcs resource create vip ocf:heartbeat:IPaddr2 params ip="192.168.1.111" nic="eth
 pcs resource create api_vip ocf:heartbeat:IPaddr2 params ip="192.168.1.3" nic="eth0" cidr_netmask="24" op monitor interval="30s"
 
 pcs resource create openstack-keystone systemd:openstack-keystone --clone interleave=true
+
+
+pcs constraint colocation add WebSite with ClusterIP INFINITY
+pcs constraint
+pcs constraint order ClusterIP then WebSite
+
+pcs constraint location WebSite prefers pcmk-1=50
 
 ```
 ## install

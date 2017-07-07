@@ -17,3 +17,12 @@ AMQP当中有四个概念非常重要：虚拟主机（virtual host），交换�
 需要记住的是，队列是由消费者（Consumer）通过程序建立的，不是通过配置文件或者命令行工具。
 
 如果要把消息放入队列，就需要一个交换机（Exchange），交换机可以理解成具有路由表的路由程序,每个消息都有一个称为路由键（routing key）的属性，就是一个简单的字符串。交换机当中有一系列的绑定（binding），即路由规则（routes）
+
+
+Users: Users can be added from the management interface and every user can be assigned permissions such as rights to read, write and configure privileges. Users can also be assigned permissions to specific virtual hosts.
+
+Vhost, virtual host: Virtual hosts provide a way to segregate applications using the same RabbitMQ instance. Different users can have different access privileges to different vhost and queues and exchanges can be created so they only exists in one vhost.
+
+Cluster: A cluster consists of a set of connected computers that work together. If the RabbitMQ instance consisting of more than one node - it is called a RabbitMQ cluster. A cluster is a group of nodes i.e., a group of computers.
+
+Node: A node is a single computer the RabbitMQ cluster.
