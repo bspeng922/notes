@@ -385,3 +385,59 @@ net localgroup "Remote Desktop Users" "{username}" /add /y
 net user {username} "{password}"
 ```
 
+
+### Adding cloudbase-init to Windows images
+
+If you want to deploy Windows images, use the latest version of the cloudbase-init tool while creating the Windows image to support the OpenStack updates related to the network interface management of Windows images.
+
+After the cloudbase-init installation, do not select the option to run sysprep.exe in the Finish page.
+
+When you create the network, set the dns-nameservers and gateway parameters.
+
+To speed up the IP address injection, when you create the image template, specify the metadata_services parameter in the cloudbase-init.conf file:
+metadata_services= cloudbaseinit.metadata.services.configdrive.ConfigDriveService, 
+                    cloudbaseinit.metadata.services.httpservice.HttpService, 
+                    cloudbaseinit.metadata.services.ec2service.EC2Service, 
+                    cloudbaseinit.metadata.services.maasservice.MaaSHttpService
+
+If you get the OS can not be restarted automatically message after changing the host name, use the latest cloudbase-init version.
+
+You can configure cloudbase-init to set the password for a user. The user name is configured at image preparation time and cannot be modified at virtual machine creation time. You can specify a user name during cloudbase-init installation or in the cloudbase-init.conf file. If the user does not exist, a new user account is created at virtual machine initialization time. If there are multiple Windows users at image preparation time, at virtual machine initialization time the password is changed only for the user specified in the cloudbase-init configuration. The passwords for other users are not changed.
+
+If cloudbase-init cannot run scripts during an instance boot, set the PowerShell execution policy to be unrestricted:
+
+```
+C:\powershell
+PS C:\Set-ExecutionPolicy Unrestricted
+```
+
+
+### OpenStack Networking without DHCP
+
+In an OpenStack environment, cloud-init generally fetches information from the metadata service provided by Nova. It also has support for reading this information from a configuration drive, which under OpenStack means a virtual CD-ROM device attached to your instance containing the same information that would normally be available via the metadata service.
+
+It is possible to generate your network configuration from this configuration drive, rather than relying on the DHCP server provided by your OpenStack environment. In order to do this you will need to make the following changes to your Nova configuration:
+
+1. You must be using a subnet that does have a DHCP server. This means that you have created it using neutron subnet-create --disable-dhcp ..., or that you disabled DHCP on an existing network using neutron net-update --disable-dhcp ....
+
+2. You must set flat_inject to true in /etc/nova/nova.conf. This causes Nova to embed network configuration information in the meta-data embedded on the configuration drive.
+
+3. You must ensure that injected_network_template in /etc/nova/nova.conf points to an appropriately formatted template.
+
+A template similar to the following ought to be sufficient:
+
+```
+{% for interface in interfaces %}
+auto {{ interface.name }}
+iface {{ interface.name }} inet static
+  address {{ interface.address }}
+  netmask {{ interface.netmask }}
+  broadcast {{ interface.broadcast }}
+  gateway {{ interface.gateway }}
+  dns-nameservers {{ interface.dns }}
+{% endfor %}
+```
+
+This will directly populate /etc/network/interfaces on an Ubuntu system, or will get translated into /etc/sysconfig/network-scripts/ifcfg-eth0 on a RHEL system (a RHEL environment can only configure a single network interface using this mechanism).
+
+

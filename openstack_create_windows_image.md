@@ -59,6 +59,7 @@ $ kvm -m 2048 -drive file=win7_x64.qcow2,if=virtio -net nic,model=virtio -net us
 > 如果需要安装一些常用软件，可以再次打开系统进行安装
 > 网络参数可以不加，默认即为 -net nic -net user
 > 如果安装时鼠标不能移动，需要加上参数 -usb -usbdevice tablet 
+>  -balloon virtio  add support of ballon
 
 
 ### 镜像压缩
