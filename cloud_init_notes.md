@@ -99,6 +99,8 @@ print "This is a user script (rc.local)\n"
 --===============2197920354430400835==--
 ```
 
+C:/Program Files/Cloudbase Solutions/Vloudbase-Init/Python/Lib/site-packages/cloudbaseinit/conf/default.py
+
 
 ### 无法获取控制台日志
 
@@ -371,6 +373,41 @@ runcmd:
   - restart ssh
 ```
 
+```
+
+########定制用户初始密码
+
+#cloud-config
+chpasswd:
+   list: |
+       root:123456
+       ubuntu:123456
+   expire: false
+ssh_pwauth: true    # [ True, False, "" or "unchanged" ]
+
+
+########安装软件
+# 一个办法是部署完后手动安装，另一个办法是通过 package-update-upgrade-install 模块让 cloud-init 自动为我们安装。
+
+#cloud-config
+apt:
+ primary:
+   - arches: [default]
+     search:
+       - http://1.2.3.4 
+
+packages:
+- pwgen
+- pastebinit
+- [libpython2.7, 2.7.3-0ubuntu3.1]
+
+说明如下：
+apt 指定安装源的位置，这里为 http://1.2.3.4 。如果是 yum 源则用 yum_repos 模块指定，具体用法可参看官网文档。
+packages 指定需要安装的软件包，还可以指定具体版本。
+instance 启动后可看到 /etc/apt/sources.list 中安装源已经更新为http://1.2.3.4。
+
+```
+
 
 
 # Cloud Base init
@@ -439,5 +476,49 @@ iface {{ interface.name }} inet static
 ```
 
 This will directly populate /etc/network/interfaces on an Ubuntu system, or will get translated into /etc/sysconfig/network-scripts/ifcfg-eth0 on a RHEL system (a RHEL environment can only configure a single network interface using this mechanism).
+
+
+## Datasource
+
+尽量不要直接使用官方的源 ， 而是自己制作 ， 尤其是 cloud-init 的配置项 ， 要手动修改掉其默认的数据源  。
+
+```
+datasource_list: ['ConfigDrive', 'OpenStack', 'Ec2']
+```
+
+
+### Config Drive Version 2
+
+```
+openstack/
+  - 2012-08-10/ or latest/
+    - meta_data.json
+    - user_data (not mandatory)
+  - content/
+    - 0000 (referenced content files)
+    - 0001
+    - ....
+```
+
+
+### OpenStack
+
+```
+#cloud-config
+datasource:
+  OpenStack:
+    metadata_urls: ["http://169.254.169.254"]
+    max_wait: -1
+    timeout: 10
+    retries: 5
+```
+metadata_urls: This list of urls will be searched for an OpenStack metadata service. The first entry that successfully returns a 200 response for <url>/openstack will be selected. (default: [‘http://169.254.169.254‘]).
+
+max_wait: the maximum amount of clock time in seconds that should be spent searching metadata_urls. A value less than zero will result in only one request being made, to the first in the list. (default: -1)
+
+timeout: the timeout value provided to urlopen for each individual http request. This is used both when selecting a metadata_url and when crawling the metadata service. (default: 10)
+
+retries: The number of retries that should be done for an http request. This value is used only after metadata_url is selected. (default: 5)
+
 
 

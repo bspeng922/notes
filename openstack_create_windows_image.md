@@ -16,6 +16,9 @@ $ qemu-img create -f qcow2 win7_x64.qcow2 40G
 
 ```
 $ kvm -m 2048 -cdrom cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso -drive file=win7_x64.qcow2,if=virtio -fda virtio-win-0.1.102_amd64.vfd -boot d -nographic -vnc :0
+
+------new
+kvm -m 2048 -cdrom UQI_W7SP1_X64_16IN1.iso -drive file=win7_x64.qcow2,if=virtio -fda virtio-win-0.1.136_amd64.vfd -boot d -nographic -vnc :0 -usb -usbdevice tablet
 ```
 
 ```
@@ -26,7 +29,7 @@ virt-install --connect qemu:///system \
     --graphics vnc,port=5900
     --disk device=cdrom,path=../../isos/virtio-win-0.1-81.iso \
     --disk device=cdrom,path=../../isos/win7_sp1_ult_64bit/Windows\ 7\ SP1\ Ultimate\ \(64\ Bit\).iso \
-    --os-type=windows --os-variant=win7 --boot cdrom,hd 
+    --os-type=windows --os-variant=win7 --boot cdrom,hd
 ```
 
 **连接VNC进行系统安装**
@@ -46,6 +49,9 @@ $ vncview localhost:5900
 **安装网卡驱动**
 ```
 $ kvm -m 2048 -cdrom virtio-win-0.1.102.iso -drive file=win7_x64.qcow2,if=virtio -net nic,model=virtio -net user -boot d -nographic -vnc :0
+
+------new
+kvm -m 2048 -cdrom virtio-win-0.1.136.iso -drive file=win7_x64.qcow2,if=virtio -boot d -nographic -vnc :0 -usb -usbdevice tablet  -net nic,model=virtio -net user   -soundhw ac97 -vga qxl -balloon virtio
 ```
 
 **安装显卡、声卡驱动**
@@ -58,7 +64,7 @@ $ kvm -m 2048 -drive file=win7_x64.qcow2,if=virtio -net nic,model=virtio -net us
 
 > 如果需要安装一些常用软件，可以再次打开系统进行安装
 > 网络参数可以不加，默认即为 -net nic -net user
-> 如果安装时鼠标不能移动，需要加上参数 -usb -usbdevice tablet 
+> 如果安装时鼠标不能移动，需要加上参数 -usb -usbdevice tablet
 >  -balloon virtio  add support of ballon
 
 
@@ -83,7 +89,7 @@ $ openstack image create "cirros" \
 ```
 
 ### 修改windowsMTU
-netsh interface ipv4 show subinterfaces 
+netsh interface ipv4 show subinterfaces
 netsh interface ipv4 set subinterface "本地连接" mtu=1450 store=persistent
 
 ### 调整源磁盘大小
@@ -91,13 +97,18 @@ netsh interface ipv4 set subinterface "本地连接" mtu=1450 store=persistent
 #qemu-img resize filename [+|-]size
 ```
 
-### update administrator password and create new user 
+### update administrator password and create new user
 ```
 #ps1_sysnative
 net user Administrator /active:yes
 net user Administrator password
 net user cpuser password /add
 net localgroup Administrators cpuser /add
+```
+
+```
+curl -o C:/4Suite-XML-1.0.1.zip http://mirrors.163.com/pypi/simple/4Suite-XML/4Suite-XML-1.0.1.zip
+"C:\Program Files\WinRAR\rar" e C:/4Suite-XML-1.0.1.zip C:/4Suite-XML-1.0.1
 ```
 
 当使用此命令收缩磁盘镜像之前,必须使用客户机的文件系统和分区工具来收缩文件系统和分区,然后再执行resize操作,不然会可能丢失数据。当使用此命令扩大了磁盘镜像之后,必须使用客户机的文件系统和分区工具来使用新增加的磁盘容量。这很好理解,KVM支持的客户机操作系统多种多样,而且都有成熟的文件系统和分区操作工具,resize操作只是简单的扩大或缩小磁盘镜像大小,而不能也无需来了解客户机怎么应对这个改变,这是客户机的事情。
@@ -107,7 +118,7 @@ net localgroup Administrators cpuser /add
 **使用命令查看qcow2文件信息**
 
 ```shell
-$ qemu-img info win2008_r2_x64.qcow2 
+$ qemu-img info win2008_r2_x64.qcow2
 image: win2008_r2_x64.qcow2
 file format: qcow2
 virtual size: 60G (64424509440 bytes)
@@ -171,7 +182,7 @@ qemu-img convert -c ubuntu.qcow2 -O qcow2 Ubuntu_1404_x86_64.qcow2
 ### 命令行创建虚拟机
 
 ```
-openstack server create --flavor cf1c7c26-b63d-410f-8082-b0456bb9acf9 --image 9c4a982c-97e8-4ba3-82c6-fc9401915f96 --security-group default --nic net-id=a47e560f-e306-4111-9023-9fb786ce003d,v4-fixed-ip=172.16.100.10  --availability-zone nova:compute6  clidemo 
+openstack server create --flavor cf1c7c26-b63d-410f-8082-b0456bb9acf9 --image 9c4a982c-97e8-4ba3-82c6-fc9401915f96 --security-group default --nic net-id=a47e560f-e306-4111-9023-9fb786ce003d,v4-fixed-ip=172.16.100.10  --availability-zone nova:compute6  clidemo
 ```
 
 
@@ -190,6 +201,105 @@ Network not found: no network with matching name 'default'
 find / -name "default.xml"
 sudo virsh net-define /etc/libvirt/qemu/networks/default.xml
 sudo virsh net-start default
+
+
+
+
+###############
+
+
+## windows hd -->  virtio
+
+虚拟机启动时候默认是没有virtio驱动的（默认为ide），从下面的xml文件也可以看出来（bus=ide）。所以无法直接导入到openstack中使用，需要手动讲硬盘、网卡的virtio驱动安装上才可以正常使用.
+
+
+```
+virsh dumpxml winxp
+
+...
+
+  <devices>
+    <emulator>/usr/bin/kvm-spice</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/home/yaof/win-xp-yaof.qcow2'/>
+      <target dev='hda' bus='ide'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
+    </disk>
+
+...
+
+<interface type='network'>
+      <mac address='52:54:00:6a:18:d2'/>
+      <source network='default'/>
+      <model type='rtl8139'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
+    </interface>
+
+```
+
+
+#### 更新磁盘virtio驱动
+
+
+因为硬盘hda是启动盘，不能直接更改类型，所以需要手动添加一块硬盘，指定为virtio的，然后启动虚拟机，进入系统后，到设备管理器中的磁盘驱动器中可以看到一个驱动异常，直接更新驱动，找到virtio驱动安装即可
+address字段虚拟机启动时会自动生成，不会配置可以直接删掉
+
+```
+# virsh edit winxp
+
+...
+
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/home/yaof/win-xp-yaof.qcow2'/>
+      <target dev='hda' bus='ide'/>
+    </disk>
+
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/home/remote_iso/test.qcow2'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+
+...
+
+```
+
+安装驱动时需要手动挂载virtio的iso文件
+
+```
+
+virsh attach-disk 42 /image/virtio-win-0.1.136.iso hdb --type cdrom
+
+```
+
+驱动安装完成后，关闭虚拟机，将临时的硬盘再删掉，然后把启动盘的类型改为virtio的即可正常启动
+
+```
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/home/yaof/win-xp-yaof.qcow2'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+
+```
+
+
+#### 更新网卡virtio驱动
+
+网卡更改为virtio的比较简单，直接把model改为virtio，然后启动虚拟机，进入系统后，到设备管理器中安装网卡驱动即可。
+
+```
+
+<interface type='network'>
+      <mac address='52:54:00:6a:18:d2'/>
+      <source network='default'/>
+      <model type='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
+    </interface>
+
+```
 
 
 
