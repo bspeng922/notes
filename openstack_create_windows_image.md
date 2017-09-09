@@ -301,5 +301,28 @@ virsh attach-disk 42 /image/virtio-win-0.1.136.iso hdb --type cdrom
 
 ```
 
+or
 
+you can set up these parameters using glance. Lookup the id of the image you have imported , then you can set these parameters as follows:
 
+```
+glance image-update \
+    --property hw_disk_bus=''ide'' \
+    --property hw_cdrom_bus="ide" \
+    --property hw_vif_model="rtl8139" \
+    7db7f821-6be1-4345-ac08-47a938c8f33a
+```
+
+Libvirt
+architecture - name of guest hardware architecture eg i686, x86_64, ppc64
+hw_cdrom_bus - name of the CDROM bus to use eg virtio, scsi, ide
+hw_disk_bus - name of the hard disk bus to use eg virtio, scsi, ide
+hw_floppy_bus - name of the floppy disk bus to use eg fd, scsi, ide
+hw_qemu_guest_agent - boolean 'yes' or 'no' to enable QEMU guest agent
+hw_rng - name of the RNG device type eg virtio (pending merge)
+hw_scsi_model - name of the SCSI bus controller eg 'virtio-scsi', 'lsilogic', etc (pending merge)
+hw_video_model - name of the video adapter model to use, eg cirrus, vga, xen, qxl
+hw_video_ram - MB of video RAM to provide eg 64 (pending merge)
+hw_vif_model - name of a NIC device model eg virtio, e1000, rtl8139
+hw_watchdog_action - action to take when watchdog device fires eg reset, poweroff, pause, none (pending merge)
+os_command_line - string of boot time command line arguments for the guest kernel
