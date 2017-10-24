@@ -521,4 +521,7 @@ timeout: the timeout value provided to urlopen for each individual http request.
 retries: The number of retries that should be done for an http request. This value is used only after metadata_url is selected. (default: 5)
 
 
+#### cloudinit script
+
+/var/lib/cloud/instance/
 

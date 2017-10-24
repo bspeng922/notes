@@ -107,8 +107,13 @@ net localgroup Administrators cpuser /add
 ```
 
 ```
+#ps1_sysnative
+net user administrator ycxx123#
 curl -o C:/4Suite-XML-1.0.1.zip http://mirrors.163.com/pypi/simple/4Suite-XML/4Suite-XML-1.0.1.zip
-"C:\Program Files\WinRAR\rar" e C:/4Suite-XML-1.0.1.zip C:/4Suite-XML-1.0.1
+expand -r C:/4Suite-XML-1.0.1.zip C:/4Suite-XML-1.0.1/
+winrar x -y C:/4Suite-XML-1.0.1.zip C:/4Suite-XML-1.0.1/
+
+-and
 ```
 
 当使用此命令收缩磁盘镜像之前,必须使用客户机的文件系统和分区工具来收缩文件系统和分区,然后再执行resize操作,不然会可能丢失数据。当使用此命令扩大了磁盘镜像之后,必须使用客户机的文件系统和分区工具来使用新增加的磁盘容量。这很好理解,KVM支持的客户机操作系统多种多样,而且都有成熟的文件系统和分区操作工具,resize操作只是简单的扩大或缩小磁盘镜像大小,而不能也无需来了解客户机怎么应对这个改变,这是客户机的事情。
@@ -260,7 +265,7 @@ address字段虚拟机启动时会自动生成，不会配置可以直接删掉
       <driver name='qemu' type='qcow2'/>
       <source file='/home/remote_iso/test.qcow2'/>
       <target dev='vda' bus='virtio'/>
-    </disk>
+    </disk> 
 
 ...
 
@@ -326,3 +331,48 @@ hw_video_ram - MB of video RAM to provide eg 64 (pending merge)
 hw_vif_model - name of a NIC device model eg virtio, e1000, rtl8139
 hw_watchdog_action - action to take when watchdog device fires eg reset, poweroff, pause, none (pending merge)
 os_command_line - string of boot time command line arguments for the guest kernel
+
+
+#############
+
+1. 通过KVM安装kali linux时一切正常，然而安装完成后启动的时候卡住 ：   
+    
+>    intel_rapl: no valid rapl domains found in package 0
+
+是因为虚拟显卡的问题，只需要添加一下镜像的属性
+hw_video_model: vga
+
+
+https://docs.openstack.org/image-guide/convert-images.html#qemu-img-convert-raw-qcow2-qed-vdi-vmdk-vhd
+
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Command-Line_Interface_Reference_Guide/chapter_cli-glance-property.html
+
+Adding images to your OpenStack environment
+https://www.ibm.com/support/knowledgecenter/en/SS4KMC_2.5.0.2/com.ibm.ico.doc_2.5/pc/pct_add_images_OpenStack.html
+
+
+### Libvirt 添加磁盘
+
+1. 创建磁盘：
+
+```
+qemu-img create -f qcow2 /data/vm/huge.img 10G
+```
+
+2. 编写一个xml文件（disk.xml）：
+
+```
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' cache='none'/>
+      <source file='/data/vm/huge.img'/>
+      <target dev='vdb' bus='virtio'/>
+    </disk>
+```
+
+
+3. 添加磁盘：
+
+```
+virsh attach-device --persistent vm-name disk.xml
+```
+
