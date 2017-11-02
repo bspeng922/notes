@@ -319,6 +319,9 @@ glance image-update \
 ```
 
 Libvirt
+
+https://docs.openstack.org/python-glanceclient/latest/cli/property-keys.html
+
 architecture - name of guest hardware architecture eg i686, x86_64, ppc64
 hw_cdrom_bus - name of the CDROM bus to use eg virtio, scsi, ide
 hw_disk_bus - name of the hard disk bus to use eg virtio, scsi, ide
