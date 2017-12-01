@@ -415,7 +415,7 @@ instance 启动后可看到 /etc/apt/sources.list 中安装源已经更新为htt
 cloudbase-init 
 
 ```
-#ps1_sysnative
+#ps1_sysnative   or   rem cmd
 net user {username} "{password}" /add /y
 net localgroup Administrators "{username}" /add /y
 net localgroup "Remote Desktop Users" "{username}" /add /y
@@ -524,4 +524,77 @@ retries: The number of retries that should be done for an http request. This val
 #### cloudinit script
 
 /var/lib/cloud/instance/
+
+###下次启动不强制重新设置密码
+
+这个功能默认是打开的，要关闭下次启动强制重新设置密码需要修改\PATH\TO\Cloudbase Solutions\Cloubase-Init\Python\Lib\site-packages\cloudbaseinit\plugins\common\setuserpassword.py：
+
+```
+    def _set_password(self, service, osutils, user_name, shared_data):
+        if service.can_update_password and not service.is_password_changed():
+            LOG.info('Updating password is not required.')
+            return None
+
+        password, injected = self._get_password(service, shared_data)
+        if not password:
+            LOG.debug('Generating a random user password')
+            maximum_length = osutils.get_maximum_password_length()
+            password = osutils.generate_random_password(
+                maximum_length)
+
+        osutils.set_user_password(user_name, password)
+        # self._change_logon_behaviour(user_name, password_injected=injected)
+        return password
+```
+
+
+###不传入admin_pass不使用随机密码
+
+默认情况下，装了 Cloudbase-Init 在不传入admin_pass启动虚拟机，将会使用随机密码。要取消使用随机密码需要修改\PATH\TO\Cloudbase Solutions\Cloubase-Init\Python\Lib\site-packages\cloudbaseinit\plugins\common\setuserpassword.py：
+
+```
+    def _set_password(self, service, osutils, user_name, shared_data):
+        if service.can_update_password and not service.is_password_changed():
+            LOG.info('Updating password is not required.')
+            return None
+
+        password, injected = self._get_password(service, shared_data)
+        if not password:
+            return None
+            # LOG.debug('Generating a random user password')
+            # maximum_length = osutils.get_maximum_password_length()
+            # password = osutils.generate_random_password(
+                maximum_length)
+
+        osutils.set_user_password(user_name, password)
+        self._change_logon_behaviour(user_name, password_injected=injected)
+        return password
+```
+
+
+### windows开机不自动重启
+
+修改\PATH\TO\Cloudbase Solutions\Cloubase-Init\Python\Lib\site-packages\cloudbaseinit\init.py
+
+```
+def configure_host(self):
+    ......
+    ......
+    if reboot_required and CONF.allow_reboot:
+        try:
+            LOG.info("Rebooting")
+            # osutils.reboot()
+        except Exception as ex:
+            LOG.error('reboot failed with error \'%s\'' % ex)
+    else:
+        LOG.info("Plugins execution done")
+        if CONF.stop_service_on_exit:
+            LOG.info("Stopping Cloudbase-Init service")
+            osutils.terminate()
+```
+
+
+### sudo 命令执行的很慢，很久才出现密码输入
+
+解决方法很简单: (1)获取你的主机名:hostname (2)vi /etc/hosts 在里面加一个:127.0.0.1 主机名 问题解决啦!
 

@@ -123,15 +123,50 @@
 13. **vdagent CPU使用率过高**
     
     将xml文件中的 channel 由pty 改为 spicevmc即可，
-    ```
-     class LibvirtConfigGuestCharBase(LibvirtConfigGuestDevice):
 
-         def __init__(self, **kwargs):
-             super(LibvirtConfigGuestCharBase, self).__init__(**kwargs)
+```
+vim /usr/lib/python2.7/site-packages/nova/virt/libvirt/config.py
 
-        *        self.type = "pty"
-        -        self.type = "spicevmc"
-    ```
+class LibvirtConfigGuestCharBase(LibvirtConfigGuestDevice):
+
+     def __init__(self, **kwargs):
+         super(LibvirtConfigGuestCharBase, self).__init__(**kwargs)
+
+    *        self.type = "pty"
+    -        self.type = "spicevmc"
+```
+
+
+14. 虚拟机没有声音
+
+```
+vim /usr/lib/python2.7/site-packages/nova/virt/libvirt/config.py
+
+-
++class LibvirtConfigGuestSound(LibvirtConfigGuestDevice): #wz
++    def __init__(self, **kwargs):
++        super(LibvirtConfigGuestSound, self).__init__(root_name="sound",**kwargs)
++        self.type = "ich6" 
++    def format_dom(self):
++        dev = super(LibvirtConfigGuestSound, self).format_dom()
++        dev.set("model", self.type)
++        return dev
+
+
+vim /usr/lib/python2.7/site-packages/nova/virt/libvirt/driver.py
+
+     if max_vram and video_ram:
+         video.vram = video_ram * units.Mi / units.Ki
+     guest.add_device(video)
++        sound = vconfig.LibvirtConfigGuestSound()
++        guest.add_device(sound)    
++
+
+ def _add_qga_device(self, guest, instance):
+     qga = vconfig.LibvirtConfigGuestChannel()
+
+```
+
 
 14. nova resize 失败
 
