@@ -215,7 +215,7 @@ sudo virsh net-start default
 
 ## windows hd -->  virtio
 
-虚拟机启动时候默认是没有virtio驱动的（默认为ide），从下面的xml文件也可以看出来（bus=ide）。所以无法直接导入到openstack中使用，需要手动讲硬盘、网卡的virtio驱动安装上才可以正常使用.
+虚拟机启动时候默认是没有virtio驱动的（默认为ide），从下面的xml文件也可以看出来（bus=ide）。所以无法直接导入到openstack中使用，需要手动将硬盘、网卡的virtio驱动安装上才可以正常使用.
 
 
 ```
@@ -379,3 +379,9 @@ qemu-img create -f qcow2 /data/vm/huge.img 10G
 virsh attach-device --persistent vm-name disk.xml
 ```
 
+
+## 导入vmdk，vdi
+
+linux系统 vdi网卡名称会变化，手动修改后系统正常运行。
+
+windows
